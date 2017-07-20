@@ -1,0 +1,42 @@
+topic: ~dispatcher repeat keep []
+
+t: Here is the dispatcher. Say A!
+	$dispatcher=0
+
+u: A ($dispatcher=0 A) 
+	Well done!
+	$dispatcher=1
+	^reuse(R1)
+
+u: R1 ($dispatcher=1) 
+	Ok! And now say B.
+	$dispatcher=2
+
+u: B ($dispatcher=2 B) 
+	Very good!
+	$dispatcher=3
+	^reuse(R2)
+
+u: R2 ($dispatcher=3) 
+	Now if you say next we go to next topic.
+	$dispatcher=4
+
+u: NEXT ($dispatcher=4 next)
+	All right! Let's go to the next topic now.
+	^respond(~first)
+
+u: CATCHER ($dispatcher=A) 
+	Welcome Back to the main topic!
+	$dispatcher=0
+	You have to say A!
+
+u: DEF ()
+	if($dispatcher=0){
+		You Have to say A.
+	}else if($dispatcher=1 OR $dispatcher=2){
+		$dispatcher=1
+		^reuse(R1)
+	}else if($dispatcher=3 OR $dispatcher=4){
+		$dispatcher=3
+		^reuse(R2)
+	}

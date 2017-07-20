@@ -1,0 +1,208 @@
+topic: ~coping repeat keep []
+
+u: INTRO ($coping=0)
+  Ok! Ora ci occuperemo di chiederti qualche informazione per riuscire ad aiutarti nel miglior modo possibile a sentirti meglio, 
+  combattere lo stress e adirittura per dormire meglio 😴 ti prometto che questa cosa la faremo una sola volta.
+  $coping = 1
+  ^reuse(FEELING_NOW)
+
+u: FEELING_NOW ($coping=1)  
+  Parlando di stress come ti senti ora? 
+  $_responses = ^jsoncreate(array)
+  ^jsonarrayinsert($_responses "mega stressato")
+  ^jsonarrayinsert($_responses "poco stressato")
+  ^jsonarrayinsert($_responses "per niente stressato")
+
+  $USER.buttons = $_responses
+  $coping=2
+
+u: ($coping=2 * mega *)
+  Mi sa che hai bisogno di un po' di aiuto per regolare questo stato d'animo.🤒
+  $coping=3
+  ^reuse(ASK_SLEEP)
+
+u: ($coping=2 * poco *)
+  Si può arrivare a non essere stressati se si segue una routine sana.
+  $coping=3
+  ^reuse(ASK_SLEEP)
+
+u: ($coping=2 * niente *)
+  Se ti senti zero stressato si può migliorare comunque.
+  $coping=3
+  ^reuse(ASK_SLEEP)
+
+u: ASK_SLEEP ($coping=3) 
+  E quante ore dormi la notte? Puoi scegliere una delle opzioni disponibili se vuoi 👇
+
+  $_responses = ^jsoncreate(array)
+  ^jsonarrayinsert($_responses "meno di 3 h")
+  ^jsonarrayinsert($_responses "3 - 4 h")
+  ^jsonarrayinsert($_responses "5 - 6 h")
+  ^jsonarrayinsert($_responses "6 - 7 h")
+  ^jsonarrayinsert($_responses "7 - 8 h")
+  ^jsonarrayinsert($_responses "piu di 8 h")
+
+  $USER.buttons = $_responses
+  $coping=4
+
+u: ($coping=4 * {"meno di" meno } 3 * {ore h})
+  Perfetto! Anche io! I bot hanno sempre bisogno del loro sonnellino rinfrescante.
+  $coping=5
+  ^reuse(ENERGY_LEVEL_DAY)
+
+u: ($coping=4 * 3 *~3 4 * {ore h})
+  Dormi pochissimo. Dormire poco non solo ti fa accumulare più stress
+  ma affatica i tuoi organi e può provocare malattie di vario tipo.
+  $coping=5
+  ^reuse(ENERGY_LEVEL_DAY)
+
+u: ($coping=4 * 4 *~3 5 * {ore h})
+  Dormire poco non solo ti fa accumulare più stress
+  ma affatica i tuoi organi e può provocare malattie di vario tipo e tu non dormi abbastanza da quel che so io.
+  $coping=5
+  ^reuse(ENERGY_LEVEL_DAY)
+
+u: ($coping=4 * 5 *~3 6 * {ore h})
+  Dormi abbastanza poco. Dovrei elencare tutti i benefici che
+  ci sono a dormire di più..
+  $coping=5
+  ^reuse(ENERGY_LEVEL_DAY)
+
+u: ($coping=4 * 6 *~3 7 * {ore h})
+  Dormi abbastanza poco. Dovrei elencare tutti i benefici che
+  ci sono a dormire di più..
+  $coping=5
+  ^reuse(ENERGY_LEVEL_DAY)
+
+u: ($coping=4 * 7 *~3 8 * {ore h})
+  Dormi relativamente il giusto, ma dovresti cercare di dormire 
+  sempre almeno 8 h al giorno.
+  $coping=5
+  ^reuse(ENERGY_LEVEL_DAY)
+
+u: ($coping=4 * {"più di", "piu di" più piu} 8 * {ore h})
+  Perfetto! Anche io! I bot hanno sempre bisogno del loro sonnellino rinfrescante.
+  $coping=5
+  ^reuse(ENERGY_LEVEL_DAY)
+
+##<<
+u: ($sleep=1 * _~noun_number *)
+  ^preprint(\[ proseguiamo,fermiamoci \])
+  Quindi dormi circa _0 ore per notte.
+  $sleep_nr = '_0
+  if ($sleep_nr<0.0){
+    Spiritoso! 
+    ^reuse(ASK_SLEEP)
+  }
+  if($sleep_nr >= 0.0 AND $sleep_nr <= 3.0){
+    Molto male! Dormire poco non solo ti fa accumulare più stress
+    ma affatica i tuoi organi e può provocare malattie di vario tipo.
+    $sleep = 2
+    $coping_data_collector=3
+  }
+  if($sleep_nr > 3.0 AND $sleep_nr < 4.0){
+    Molto male! Dormire poco non solo ti fa accumulare più stress
+    ma affatica i tuoi organi e può provocare malattie di vario tipo.
+      $sleep = 2
+      $coping_data_collector=3
+  }
+  if($sleep_nr >= 4.0 AND $sleep_nr < 6.0){
+    Dormi abbastanza poco. Dovrei elencare tutti i benefici che
+     ci sono a dormire di più..
+     $sleep = 2
+     $coping_data_collector=3
+  }
+  if($sleep_nr >= 6.0 AND $sleep_nr < 7.0){
+    Dormi abbastanza poco. Dovrei elencare tutti i benefici che
+     ci sono a dormire di più..
+     $sleep = 2
+     $coping_data_collector=3
+  }
+  if($sleep_nr >= 7.0 AND $sleep_nr < 8.0){
+    Dormi relativamente il giusto, ma dovresti cercare di dormire 
+    sempre almeno 8 h al giorno.
+    $sleep = 2
+    $coping_data_collector=3
+  }
+  if($sleep_nr >= 8.0){
+    Perfetto! Anche io! I bot hanno sempre bisogno del loro sonnellino rinfrescante.
+    $sleep = 2
+    $coping_data_collector=3
+  }
+    ##>>
+
+u: ENERGY_LEVEL_DAY ($coping=5) 
+  E quanto è il tuo livello di energia 💪 durante il giorno?
+  Per favore scegli una delle opzioni disponibili se vuoi 👇 
+
+  $_responses = ^jsoncreate(array)
+  ^jsonarrayinsert($_responses "tantissime energie")
+  ^jsonarrayinsert($_responses "non tante energie")
+  ^jsonarrayinsert($_responses "pochissime")
+
+  $USER.buttons = $_responses
+  $coping=6
+
+u: ($coping=6 * tantissime * {energie} *)
+  Quindi sei sempre pimpante come me 🤗. 
+  Posso aiutarti a mantenere sempre questo stato di energia 😉
+  $coping=7
+  ^reuse(FINISH_COPING)
+
+u: ($coping=6 * non tante * {energie} * )
+  Capisco! Io sono molto bravo a dare dei buoni consigli sul come migliorare questo
+  calo di energie 🕺. Dammi un po' di tempo per conoscerti meglio e ti diro' esattamente quello di cui hai bisogno. 👊
+  $coping=7
+  ^reuse(FINISH_COPING)
+
+u: ($coping=6 * pochissime * {energie} * )
+  Capisco! 🤔 Io sono molto bravo a dare dei buoni consigli sul come migliorare questo
+  calo di energie 🕺. Dammi un po' di tempo per conoscerti meglio e ti diro' esattamente quello di cui hai bisogno. 👊
+  $coping=7
+  ^reuse(FINISH_COPING)
+
+
+u: FINISH_COPING ($coping=7) 
+  $USER.coping=1
+  ^flag_on_profiling_done($USER.health $USER.coping $USER.physical $USER.mental)
+
+  if ($USER.state!=1){
+    Possiamo fare meglio di così, pensero' ad un piano adatto a te
+    🕺 🎊 🕺 🎉 🕺 questa e' la mia danza per pensare meglio 😆
+    
+    ^mark(back _0)
+    ^respond(~profilation)
+  }else{
+    ^mark(forward _0)
+    ^respond(~monitoring)
+  }
+
+
+
+
+u: STOP ( * ~stop_here * )  
+  🙈 Va bene, decidi tu capo di cosa parliamo 😁😆 Io vado a lavarmi i denti 😁😁 quando cambi
+  idea vieni qui e chiedimi di parlare di strategie di adattamento. Io resto qui ad aspattarti. A dopo!
+
+  ^calculate_coping_default()
+
+  $profilation=0
+  ^mark(back _0)
+  ^respond(~profilation)
+
+# gestione dello stato in caso di frasi che non matchano nessuno dei pattern
+u: DEFAULT ()
+  ^preprint(Mi sa che mi si sono fusi un pò i circuiti e non ho capito il tuo messaggio 😂 Vediamo se mi ricordo di cosa stavamo parlando.. Ah si.. )
+
+  if ($coping==0){
+    ^reuse(INTRO)
+  }else if($coping==2){
+    $coping=1
+    ^reuse(FEELING_NOW)
+  }else if($coping==4){
+    $coping=3
+    ^reuse(ASK_SLEEP)
+  }else if($coping==6){
+    $coping=5
+    ^reuse(ENERGY_LEVEL_DAY)
+  }

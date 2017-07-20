@@ -1,0 +1,407 @@
+topic: ~health repeat keep []
+
+# i topic di introduzione andranno visualizzati solo una volta oppure verranno scelte delle rule a caso 
+
+u: INTRO ($health=0 * ~topic_salute *) 
+    Sono qui per aiutare a migliorare il tuo benessere e farti sentire al meglio 💪 💪 💪 ! 
+    Pensa a me come ad un Personal Trainer 🏋️ Suona bene? 🎧
+    
+    $_responses = ^jsoncreate(array)
+    ^jsonarrayinsert($_responses "si")
+    ^jsonarrayinsert($_responses "no")
+    ^jsonarrayinsert($_responses "un po")
+
+    $USER.buttons = $_responses
+    $health=1
+
+
+u: ($health=1 * ~risp_si *) 
+    Sono Contento che ti piaccia $username! 👋👊 
+    $health = 2
+    ^reuse(POST_INTRO)
+
+u: ($health=1 * ~risp_no *) 
+    $username cercherò di mostrati la mia vera forza e dopo non potrai non amarmi 😘! 👋👊 
+    $health = 2
+    ^reuse(POST_INTRO)
+
+u: ($health=1 *un po *) 
+    Piano piano inizierai ad amarmi $username! 👋👊 E' un fatto certo 😊😇
+    $health = 2
+    ^reuse(POST_INTRO)
+
+
+u: POST_INTRO ($health=2) 
+    👍 Mi diverto un mondo a mandarti suggerimenti e abbracci 🤗
+    Raccontami qualcosa in piu' di te $username! 🎤 
+    Quali tra queste descrive meglio la tua personalità? Scegli una tra le opzioni disponibili 👇
+    
+    $_responses = ^jsoncreate(array)
+    ^jsonarrayinsert($_responses "estremamente attivo")
+    ^jsonarrayinsert($_responses "molto attivo")
+    ^jsonarrayinsert($_responses "moderato")
+    ^jsonarrayinsert($_responses "molto limitato")
+    ^jsonarrayinsert($_responses "inattivo")
+
+    $USER.buttons = $_responses
+    $health=3
+
+
+
+u: ($health=3 * estremamente attivo *) 
+  Ottimo! Sei esattamente come me $health 💑. anche io ho i circuiti sempre attivi! 🛰⚠️🏊🏻 
+  $health=4
+  ^reuse(WELLBEING)
+  
+
+u: ($health=3 * molto attivo * )
+  Ottimo! Sei esattamente come me 💑. anche io ho i circuiti sempre attivi! 🛰⚠️🏊🏻 
+  $health=4
+  ^reuse(WELLBEING)
+
+u: ($health=3 * molto limitato *) 
+  Non è un buon segno 🤔. Ma io posso aiutarti a cambiare questa personalità! 👍👊
+  $health=4
+  ^reuse(WELLBEING)
+
+u: ($health=3 * moderato *) 
+  Ottimo! Sei esattamente come me 💑. I miei circuiti non riescono ad andare sempre alla massima velocità! 🛰⚠️🏊🏻 
+  $health=4
+  ^reuse(WELLBEING)
+
+u: ($health=3 * inattivo *) 
+  Mmmmh.. 🤔 Questa è una brutta abitudine, però grazie alla mia potenza di calcolo e intelligenza artificiale 🤖 puoi cambiare stile di vita!
+  $health=4
+  ^reuse(WELLBEING)
+
+u: WELLBEING ($health=4) 
+  Ti posso aiutare con qualche consiglio utile. 🤗
+  Cosa significano per te benessere e salute? 
+  Per favore scegli una delle opzioni disponibili. 👇
+
+  $_responses = ^jsoncreate(array)
+    ^jsonarrayinsert($_responses "mangiare bene")
+    ^jsonarrayinsert($_responses "essere attivi")
+    ^jsonarrayinsert($_responses "sentirsi rilassati")
+    ^jsonarrayinsert($_responses "avere un buon aspetto")
+    ^jsonarrayinsert($_responses "dimmelo tu")
+
+    $USER.buttons = $_responses
+    $health=5
+
+u: ($health=5 * mangiare bene *) 
+  Capisco $username! Quindi per te benessere e salute significa mangiare bene! Molto bene ne terrò conto.
+  $health=6
+  ^reuse(NUTRITIONAL_STATE_RULE)
+
+u: ($health=5 * essere attivi *) 
+  E' una buona definizione!
+  $health=6
+  ^reuse(NUTRITIONAL_STATE_RULE)
+
+u: ($health=5 * sentirsi rilassati *) 
+  Il relax aiuta molto.
+  $health=6
+  ^reuse(NUTRITIONAL_STATE_RULE)
+
+u: ($health=5 * avere un buon aspetto *) 
+  E si! avere un buon aspetto è un'ottima cosa.
+  $health=6
+  ^reuse(NUTRITIONAL_STATE_RULE)
+
+u: ($health=5 * dimmelo tu *) 
+  Il concetto di benessere nel corso degli anni ha subito numerose modifiche e ampliamenti, che hanno condotto ad una visione del termine più ampia e completa, 
+  non più incentrata sull'idea di assenza di patologie, ma come uno stato complessivo di buona salute fisica, psichica e mentale.
+  $health=6
+  ^reuse(NUTRITIONAL_STATE_RULE)
+
+
+u: NUTRITIONAL_STATE_RULE ($health=6) 
+  Immaggino che tu ti chieda che cosa significa nutrizione.
+  In linea generale, è il modo in cui il nostro corpo usa e 
+  reagisce a quello che mangiamo. 
+  Possiamo usare la nutrizione per 
+  far sì che il nostro corpo stia sempre al meglio. 
+  Come definiresti le tue abitudini alimentari. 
+  Per favore scegli una delle opzioni disponibili. 👇
+  
+  $_responses = ^jsoncreate(array)
+  ^jsonarrayinsert($_responses "super sane")
+  ^jsonarrayinsert($_responses "abbastanza buone")
+  ^jsonarrayinsert($_responses "normali")
+  ^jsonarrayinsert($_responses "bisogno di una regolata")
+  ^jsonarrayinsert($_responses "codice rosso")
+
+  $USER.buttons = $_responses
+  $health=7
+
+
+u: ($health=7 * super sane *) 
+  Mi fa contento che sei una persona con buone abitudini.
+  Ti posso aiutare a mantenerle tali.
+  $health=8
+  ^reuse(ASK_WATER)
+
+u: ($health=7 * abbastanza buone *) 
+  Delle buone abitudini alimentari significano molto per una
+  vita sana ed equilibrata. Possiamo migliorarle ulteriormente insieme.
+  $health=8
+  ^reuse(ASK_WATER)
+
+u: ($health=7 * normali *) 
+  Le risposte così generiche a volte sono pericolose, forse c'è bisogno
+  di pensarci un pò. Io comunque sono in grado di aiutare a seguire uno
+  stile di vita sano ed adeguato.
+  $health=8
+  ^reuse(ASK_WATER)
+
+u: ($health=7 * bisogno di una regolata *) 
+  Sei capitato nel posto giusto. Insieme possiamo migliorare il tuo stile 
+  di vita. Ho delle conoscenze molto avanzate e tanti consigli facili da 
+  mettere in prattica ma con un'utilità mostruosa.
+  $health=8
+  ^reuse(ASK_WATER)
+
+u: ($health=7 * codice rosso *) 
+  Uno stile di vita sregolato e delle brutte abitudini alimentari portano ad 
+  accumulo di stress e stanchezza. Inoltre spesso questo è alla base di malattie
+  di vario tipo. Ti posso aiutare a riprendere in mano il tuo stile di vita alimentare
+  e tornare una persona sana e atletica.
+  $health=8
+  ^reuse(ASK_WATER)
+
+
+u: ASK_WATER ($health=8 )
+    Mi potresti dire quanta acqua bevi al giorno?
+    Per favore scegli una delle opzioni disponibili. 👇
+        
+    $_responses = ^jsoncreate(array)
+    ^jsonarrayinsert($_responses "meno di 1 litro")
+    ^jsonarrayinsert($_responses "tra 1 e 2 litri")
+    ^jsonarrayinsert($_responses "piu di 2")
+
+    $USER.buttons = $_responses
+    $health=9
+
+
+u: ($health=9 * meno * )
+  Molto male! Comunque meglio di me che non ne bevo nemmeno uno 🙈 Se ne bevessi un pò mi si brucerebberò i circuiti.
+  $health=10
+  ^reuse(FRUITS_VEGS)
+
+u: ($health=9 * tra *) \
+  Mmmmh.. abbastanza poco, ma meglio di niente. 💦💦💦 Sappiamo entrambi che vanno bevuti almeno 2 litri al giorno! 👌
+  $health=10
+  ^reuse(FRUITS_VEGS)
+
+u: ($health=9 * piu *) 
+  Molto bene 🤙 Questa è un'abitudine che deve rimanere tale! 
+  $health=10
+  ^reuse(FRUITS_VEGS)
+
+u: FRUITS_VEGS ($health=10) 
+  E quanta frutta e verdura mangi al giorno $username?
+
+  $_responses = ^jsoncreate(array)
+  ^jsonarrayinsert($_responses "meno di 2 frutti/verdure")
+  ^jsonarrayinsert($_responses "1 - 2 frutti/verdure")
+  ^jsonarrayinsert($_responses "3 - 4 frutti/verdure")
+  ^jsonarrayinsert($_responses "4 - 5 frutti/verdure")
+  ^jsonarrayinsert($_responses "piu di 5 frutti/verdure")
+
+  $USER.buttons = $_responses
+  $health=11
+
+
+u: ($health=11 * meno di 2 *) 
+  Molto male!
+  $health=12
+  ^reuse(ENERGY_LEVEL)
+
+u: ($health=11 * 1 * 2 *) 
+  Mmmmh.. abbastanza poco, ma meglio di niente.
+  $health=12
+  ^reuse(ENERGY_LEVEL)
+
+u: ($health=11 * 2 * 3 *) 
+  Va bene dai, meglio di me che non ne mangio nemmeno uno 🙈
+  $health=12
+  ^reuse(ENERGY_LEVEL)
+
+u: ($health=11 * 3 * 4 *) 
+  Va bene dai, meglio di me che non ne mangio nemmeno uno 🙈
+  $health=12
+  ^reuse(ENERGY_LEVEL)
+
+u: ($health=11 * 4 * 5 *) 
+  Va bene dai, meglio di me che non ne mangio nemmeno uno 🙈
+  $health=12
+  ^reuse(ENERGY_LEVEL)
+
+u: ($health=11 * piu di 5 *) 
+  Ottimo! vedo che sei uno molto salutare! Complimenti 😇👋💪🏋️
+  $health=12
+  ^reuse(ENERGY_LEVEL)
+
+
+u: ENERGY_LEVEL ($health=12) 
+    Tutto questo parlare di cibo mi ha fatto venire fame.
+    Come è il tuo livello di energia? 💪😏
+
+    $_responses = ^jsoncreate(array)
+    ^jsonarrayinsert($_responses "basso")
+    ^jsonarrayinsert($_responses "medio")
+    ^jsonarrayinsert($_responses "alto")
+
+    $USER.buttons = $_responses
+    $health=13
+    
+u: ($health=13 * basso *) 
+  Sicuramente ti posso aiutare!
+  $health=14
+  ^reuse(MORNING)
+
+u: ($health=13 * medio *) 
+  E' possibile sentirsi meglio sai questo vero?
+  $health=14
+  ^reuse(MORNING)
+
+u: ($health=13  * alto *) 
+  Molto bene!
+  $health=14
+  ^reuse(MORNING)
+
+
+
+u: MORNING ($health=14 ) 
+  Quale è il tuo orario migliore durante la mattina per ricevere le notifiche sulle attività? 
+  Seleziona un'opzione tra quelle elencate.
+  
+  $_responses = ^jsoncreate(array)
+  ^jsonarrayinsert($_responses "8 AM")
+  ^jsonarrayinsert($_responses "9 AM")
+  ^jsonarrayinsert($_responses "10 AM")
+  ^jsonarrayinsert($_responses "11 AM")
+
+  $USER.buttons = $_responses
+  $health=15
+  
+u: ($health=15 * 8 * ) 
+  Grazie ❤️! 
+  $health=16
+  ^reuse(EVENING)
+
+u: ($health=15 * 9 * )
+  Grazie ❤️! 
+  $health=16
+  ^reuse(EVENING)
+
+u: ($health=15 * 10 * ) 
+  Grazie ❤️! 
+  $health=16
+  ^reuse(EVENING)
+
+u: ($health=15 * 11 * ) 
+  Grazie ❤️! 
+  $health=16
+  ^reuse(EVENING)
+
+
+u: EVENING ($health=16) 
+  Quale è il tuo orario migliore durante la sera per ricevere le attività? Seleziona un'opzione tra quelle elencato.
+
+  $_responses = ^jsoncreate(array)
+  ^jsonarrayinsert($_responses "8 AM")
+  ^jsonarrayinsert($_responses "9 AM")
+  ^jsonarrayinsert($_responses "10 AM")
+  ^jsonarrayinsert($_responses "11 AM")
+
+  $USER.buttons = $_responses
+  $health=17
+
+u: ($health=17 * 8 * ) 
+  Grazie ❤️! 
+  $health=18
+  ^reuse(FINISH_HEALTH)
+
+u: ($health=17 * 9 * )
+  Grazie ❤️! 
+  $health=18
+  ^reuse(FINISH_HEALTH)
+
+u: ($health=17 * 10 * ) 
+  Grazie ❤️! 
+  $health=18
+  ^reuse(FINISH_HEALTH)
+
+u: ($health=17 * 11 * ) 
+  Grazie ❤️! 
+  $health=18
+  ^reuse(FINISH_HEALTH)
+
+
+u: FINISH_HEALTH ($health=18)
+  # set that health topic was completed
+  $USER.health = 1
+  ^flag_on_profiling_done($USER.health $USER.coping $USER.physical $USER.mental)
+
+  if ($USER.state!=1){
+    Abbiamo finito con il tpic salute, io intanto resto qui a fare una penichella 😁😴.
+    ^mark(back _0)
+    ^respond(~profilation)
+  }else{
+    Ottimo abbiamo tutto il necessario per dare il via alla definizione delle attivita',
+    ^mark(forward _0)
+    ^respond(~monitoring)
+  }
+
+  
+
+
+u: STOP ( * ~stop_here * )  
+    🙈 Va bene, decidi tu capo di cosa parliamo 😁😆 Io vado a lavarmi i denti 😁😁 quando cambi
+      idea vieni qui e chiedimi di parlare di salute. Io resto qui ad aspattarti. A dopo!
+
+      ^calculate_health_default()
+      $profilation=0
+      ^mark(back _0)
+      ^respond(~profilation)
+
+
+u: DEFAULT ()
+  ^preprint(Mi sa che mi si sono fusi un pò i circuiti e non ho capito il tuo messaggio 😂 
+    Vediamo se mi ricordo di cosa stavamo parlando.. Ah si.. )
+  # if no rule is matched we calculate the state of the user in this topic to discover whitch was the latest rule triggered
+
+  if ($health==1){
+    $health=0
+    ^reuse(INTRO)
+  }else if ($health==3){
+    $health=2
+    ^reuse(POST_INTRO)
+  }else if ($health==5){
+    $health=4
+    ^reuse(WELLBEING)
+  }else if ($health==7){
+    $health=6
+    ^reuse(NUTRITIONAL_STATE_RULE)
+  }else if ($health==9){
+    $health=8
+    ^reuse(ASK_WATER)
+  }else if ($health==11){
+    $health=10
+    ^reuse(FRUITS_VEGS)
+  }else if ($health=13){
+    $health=12
+    ^reuse(ENERGY_LEVEL)
+  }else if ($health==15){
+    $health=14
+    ^reuse(MORNING)
+  }else if ($health==17){
+    $health=16
+    ^reuse(EVENING)
+  }
+  
+
+
+

@@ -1,0 +1,112 @@
+topic: ~profilation keep repeat []  
+
+
+
+# intro
+u: INTRO ($profilation=0) Gli argomenti di cui possiamo parlare per ora sono: 
+  ^remains_to_profile($USER.health $USER.coping $USER.physical $USER.mental)
+   a te la scelta!
+  $profilation=1
+  ^set_buttons_on_return_profilation($USER.health $USER.coping $USER.physical $USER.mental)
+
+
+# used to go into health topic
+u: ($profilation=1 * ~topic_salute *) 
+  if ($USER.health==0){
+    # if never entered in health topic we initalize a fresh state
+    if (!$health){
+      $health=0
+    }
+    ^addtopic(~health)
+    ^respond(~health)
+  }else{
+    Per ora abbiamo abbastanza informazioni sul tuo stato della salute. I topic sui quali possiamo ancora parlare sono 
+    ^remains_to_profile($USER.health $USER.coping $USER.physical $USER.mental) scegli tu con cosa vuoi continuare.
+    ^set_buttons_on_return_profilation($USER.health $USER.coping $USER.physical $USER.mental)
+
+
+  } 
+
+u: ($profilation=1 * ~topic_adattamento * ) 
+  if ($USER.coping==0){
+    # if never entered in coping topic we set it as a fresh topic otherwise we just let it continue from where it was left
+    if (!$coping){
+      $coping=0
+    }
+    ^addtopic(~coping)
+    ^respond(~coping)
+  }else{
+    Abbiamo già completato questo topic. Gli argomenti che ci mancano sono: 
+    ^remains_to_profile($USER.health $USER.coping $USER.physical $USER.mental) scegli tu con cosa vuoi continuare.
+    ^set_buttons_on_return_profilation($USER.health $USER.coping $USER.physical $USER.mental)
+  }
+
+u: ($profilation=1 * ~topic_attivita_fisica * )
+  if ($USER.physical==0){
+    if (!$physical){
+      $physical=0
+    }
+    ^addtopic(~physical)
+    ^respond(~physical)
+  }else{
+    Abbiamo già completato questo topic. Gli argomenti che ci mancano sono: 
+    ^remains_to_profile($USER.health $USER.coping $USER.physical $USER.mental) scegli tu con cosa vuoi continuare.
+    ^set_buttons_on_return_profilation($USER.health $USER.coping $USER.physical $USER.mental)
+  }
+
+u: ($profilation=1 * ~topic_benessere_mentale *)
+  $_mental_state=^jsonpath(.mental $USER)
+  if ($_mental_state==0){
+    if (!$mental){
+      $mental=0
+    }
+    ^addtopic(~mental_wellbeing)
+    ^respond(~mental_wellbeing)
+  }else{
+    Abbiamo già completato questo topic. Gli argomenti che ci mancano sono: 
+    ^remains_to_profile($USER.health $USER.coping $USER.physical $USER.mental) scegli tu con cosa vuoi continuare.
+    ^set_buttons_on_return_profilation($USER.health $USER.coping $USER.physical $USER.mental)  }
+
+u: (back) 
+    Ti ricordo che ci rimane da parlare di: 
+    ^remains_to_profile($USER.health $USER.coping $USER.physical $USER.mental) a te la scelta!
+    ^set_buttons_on_return_profilation($USER.health $USER.coping $USER.physical $USER.mental)
+    ^unmark(back _0)
+
+u: ( * aiuto *) 
+  Intanto possiamo parlare solo di 
+  ^remains_to_profile($USER.health $USER.coping $USER.physical $USER.mental). A te la scelta!
+
+##<<
+
+u: ( * ~topic_attivita_fisica * )
+  # impostare stato utente per l'attivita fisica
+  # potremmo fare qualche check per vedere se lo ha già completato o meno questo topic
+  $physical_activity=0
+  ^respond(~physical_activity)
+
+u: ( * ~topic_benessere_mentale *)
+    $wellbeing=0
+    ^respond(~mental_wellbeing)
+
+
+u: ( * intro * ) Le introduzioni le abbiamo già fatte. Di cos'altro vorresti parlare?
+      Digita una delle opzioni: salute, attivita fisica, consapevolezza.
+
+ 
+u: ( * [~stop_here ~risp_si ~go_on ~risp_no]  *) 
+  ^preprint(\[ salute,attivita fisica,strategia di adattamento,benessere mentale \])
+  Ti ricordo che i topic di cui puoi parlare sono: 
+  salute 🔬, attivita' fisica 🏋️, strategia di adattamento 🤔, benessere mentale 😇.
+
+
+u: ( * ~help * ) 
+  ^preprint(\[ salute,attivita fisica,strategia di adattamento,benessere mentale \])
+  I topic di cui possiamo parlare sono: salute 🔬, attivita' fisica 🏋️, strategia di adattamento 🤔, benessere mentale 😇.
+  Inoltre hai a disposizione 2 comandi speciali: 
+    \t /start - per iniziare la conversazione
+    \t /reset - per resettare il dialogo
+
+u: ()
+  UNKNOWN
+  ##>>

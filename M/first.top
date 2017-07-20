@@ -1,0 +1,14 @@
+topic: ~first repeat keep []
+
+u: ($first=0) 
+	Welcome in First!
+	$first=1
+
+u: R1 ($first=1)
+	If you say back we go back to the main topic.
+	$first=2
+
+u: ($first=2 back)
+	Oook! Let's go back!
+	$dispatcher=A
+	^respond(~dispatcher)

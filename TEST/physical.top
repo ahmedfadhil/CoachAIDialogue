@@ -1,0 +1,183 @@
+topic: ~physical keep repeat []
+
+u: INTRO ($physical=0 * ~topic_attivita_fisica * )
+	Essere in forma non è solo una buona scusa per indossare i leggins 😋
+	E' il modo migliore per mantenere la tua mente e il tuo corpo in ottima forma 👍
+	E ci sono tanti modi divertenti che puoi farlo! 🎉
+	$physical=1
+	^reuse(FITNESS_ACTIVITY)
+
+u: FITNESS_ACTIVITY ($physical=1)
+	Quindi $username, quale e' la tua attivita' preferita di sport 🏋️? 
+
+	$_responses = ^jsoncreate(array)
+    ^jsonarrayinsert($_responses "ciclismo")
+    ^jsonarrayinsert($_responses "nuoto")
+    ^jsonarrayinsert($_responses "corsa")
+    ^jsonarrayinsert($_responses "yoga")
+    ^jsonarrayinsert($_responses "danza")
+    ^jsonarrayinsert($_responses "sport di squadra")
+    ^jsonarrayinsert($_responses "camminare")
+
+    $USER.buttons = $_responses
+
+	$physical=2
+
+u: ($physical=2 * ~risp_si *)
+	Bene lo terro' a mente.
+	$physical=4
+	^reuse(OFTEN)
+
+u: ($physical=2 * ~risp_no *)
+	E allora quale e'?
+
+u: ($physical=2 _*)
+
+	$_responses = ^jsoncreate(array)
+    ^jsonarrayinsert($_responses "si")
+    ^jsonarrayinsert($_responses "no")
+
+    $USER.buttons = $_responses
+    $sport='_0
+	Quindi il tuo sport preferito e' _0 ho capito bene?
+
+
+# AGGIUNGERO UNA REGOLA PER OGNI SPORT ALTRIMENTI NON FUNZIONA
+
+
+u: OFTEN ($physical=4)
+	Quanto spesso ti eserciti? Per favore scegli una delle opzioni qua sotto 👇.
+	
+	$_responses = ^jsoncreate(array)
+    ^jsonarrayinsert($_responses "3 o piu' volte a settimana")
+    ^jsonarrayinsert($_responses "1 / 2 volte a settimana")
+    ^jsonarrayinsert($_responses "quasi mai")
+
+    $USER.buttons = $_responses
+    $physical=5
+
+u: ($physical=5 * 3 *)
+	Molto bene! Pure io mi tengo sempre allenato cosa credi.
+	$physical=6
+	^reuse(INTENSITY)
+
+
+u: ($physical=5 * 1 * {2} * )
+	Non c'e' guadagno senza dolore 😣.
+	$physical=6
+	^reuse(INTENSITY)
+
+u: ($physical=5 * quasi mai * )
+	Sarebbe l'ora di iniziare. I benefici sono infiniti!
+	$physical=6
+	^reuse(INTENSITY)
+
+
+u: INTENSITY ($physical=6)
+	Con che intensita' ti eserciti?
+
+	$_responses = ^jsoncreate(array)
+    ^jsonarrayinsert($_responses "tranquilla")
+    ^jsonarrayinsert($_responses "media")
+    ^jsonarrayinsert($_responses "ci vado pesante")
+
+    $USER.buttons = $_responses
+	
+	$physical=7
+
+u: ($physical=7 * [tranquillo tranquilla] *)
+	Molto bene! 🤞 Meglio tranquilli e farlo piuttosto che non fare niente.
+	$physical=8
+	^reuse(FITNESS_OBJ)
+
+u: ($physical=7  * media *)
+	Molto bene! 🤞
+	$physical=8
+	^reuse(FITNESS_OBJ)
+
+u: ($physical=7  * pesante *)
+	Molto bene! 🤞 Immagino che ti diverta molto 😊.
+	$physical=8
+	^reuse(FITNESS_OBJ)
+
+u: FITNESS_OBJ ($physical=8)
+	Buono, sì, sempre in movimento 👣
+	Quali sarebbero i tuoi obiettivi di fitness 2017? 🏆
+	Io per esempiooglio battere il mio MRPB: miglior risultato personale bot 😊🙃🏅
+	
+	$_responses = ^jsoncreate(array)
+    ^jsonarrayinsert($_responses "Essere piu attivo")
+    ^jsonarrayinsert($_responses "migliorare i miei tempi")
+    ^jsonarrayinsert($_responses "perdere peso")
+    ^jsonarrayinsert($_responses "mangiare piu sano")
+
+    $USER.buttons = $_responses	
+	$physical=9
+
+u: ($physical=9 * attivo * )
+	Ooooooh yesss! Sono molto bravo a fare questo. Posso aiutarti molto nel raggiungere i tuoi obiettivi
+	$physical=10
+	^reuse(FINISH_PHYSICAL)
+
+u: ($physical=9 * migliorare * )
+	Ooooooh yesss! Sono molto bravo a fare questo. Posso aiutarti molto nel raggiungere i tuoi obiettivi
+	$physical=10
+	^reuse(FINISH_PHYSICAL)
+
+u: ($physical=9 * perdere peso * )
+	Ooooooh yesss! Sono molto bravo a fare questo. Posso aiutarti molto nel raggiungere i tuoi obiettivi
+	$physical=10
+	^reuse(FINISH_PHYSICAL)
+
+u: ($physical=9 * mangiare piu sano * )
+	Ooooooh yesss! Sono molto bravo a fare questo. Posso aiutarti molto nel raggiungere i tuoi obiettivi
+	$physical=10
+	^reuse(FINISH_PHYSICAL)
+
+u: FINISH_PHYSICAL ($physical=10 )
+	# set that topic was completed
+    $USER.physical = 1
+	^flag_on_profiling_done($USER.health $USER.coping $USER.physical $USER.mental)
+
+	if ($USER.state!=1){
+		Per ora abbiamo finito di parlare di attivita' fisiche, penserò ad un piano da battaglia 🤺 per te ma durante l'attesa possiamo chattare di altro.
+		^mark(back _0)
+	    ^respond(~profilation)
+	}else{
+		Ottimo abbiamo tutto il necessario per dare il via alla definizione delle attivita'.
+
+	    ^mark(forward _0)
+		^respond(~monitoring)
+	}
+
+
+u: STOP ( * ~stop_here * )
+    🙈 Va bene, decidi tu capo di cosa parliamo 😁😆 Io vado a lavarmi i denti 😁😁 quando cambi
+    idea vieni qui e chiedimi di parlare di salute. Io resto qui ad aspettarti. A dopo!
+
+	^calculate_physical_default()
+    $profilation=0
+    ^respond(~profilation)
+
+u: DEFAULT ()
+	Che asino che sono 🐎🙈! Penso di non aver capito ma mi sa che eravamo rimasti qua.. 
+
+	# check user topic fullfilment state
+	if($physical==0){
+		^reuse(INTRO)
+	}else if($physical==2 OR $physical==3){
+		$physical=1
+		^reuse(FITNESS_ACTIVITY)
+	}else if($physical==5){
+		$physical=4
+		^reuse(OFTEN)
+	}else if($physical==7){
+		$physical=6
+		^reuse(INTENSITY)
+	}else if($physical==9){
+		$physical=8
+		^reuse(FITNESS_OBJ)
+	}
+
+
+
