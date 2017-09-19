@@ -3,8 +3,9 @@ topic: ~monitoring repeat keep []
 #! [forward - from profiling]
 u: (forward)
 	Ora che hai completato la profilatura restiamo in attesa delle attivita' che verranno definite per te.
+	Intanto puoi chiedermi dei consigli.
 	$_responses = ^jsoncreate(array)
-    ^jsonarrayinsert($_responses "tips")
+    ^jsonarrayinsert($_responses "consigli")
 
     $USER.buttons = $_responses	
 	^unmark(forward _0)
@@ -12,7 +13,15 @@ u: (forward)
 #! [tips - consigli]
 u: (* [tips consigli] *)
 	$tips=0
+	$USER.monitoring = 0
 	^respond(~tips)
 
 u: (back)
+	$USER.monitoring = 1	
+	^unmark(back _0)
+
+u: (we)
+	^upload_health_features()
+
+
 	

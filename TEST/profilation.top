@@ -1,7 +1,5 @@
 topic: ~profilation keep repeat []  
 
-
-
 # intro
 u: INTRO ($profilation=0) Gli argomenti di cui possiamo parlare per ora sono: 
   ^remains_to_profile($USER.health $USER.coping $USER.physical $USER.mental)
@@ -73,8 +71,9 @@ u: (back)
     ^set_buttons_on_return_profilation($USER.health $USER.coping $USER.physical $USER.mental)
     ^unmark(back _0)
 
-u: ( * aiuto *) 
+u: (*) 
   Intanto possiamo parlare solo di 
+  ^set_buttons_on_return_profilation($USER.health $USER.coping $USER.physical $USER.mental)
   ^remains_to_profile($USER.health $USER.coping $USER.physical $USER.mental). A te la scelta!
 
 ##<<

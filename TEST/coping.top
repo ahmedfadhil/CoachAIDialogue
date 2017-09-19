@@ -18,17 +18,20 @@ u: FEELING_NOW ($coping=1)
 
 u: ($coping=2 * mega *)
   Mi sa che hai bisogno di un po' di aiuto per regolare questo stato d'animo.🤒
+  $USER.coping_features.coping_stress = "mega stressato"
   $coping=3
   ^reuse(ASK_SLEEP)
 
 u: ($coping=2 * poco *)
   Si può arrivare a non essere stressati se si segue una routine sana.
   $coping=3
+  $USER.coping_features.coping_stress = "poco stressato"
   ^reuse(ASK_SLEEP)
 
 u: ($coping=2 * niente *)
   Se ti senti zero stressato si può migliorare comunque.
   $coping=3
+  $USER.coping_features.coping_stress = "per niente stressato"
   ^reuse(ASK_SLEEP)
 
 u: ASK_SLEEP ($coping=3) 
@@ -48,41 +51,48 @@ u: ASK_SLEEP ($coping=3)
 u: ($coping=4 * {"meno di" meno } 3 * {ore h})
   Perfetto! Anche io! I bot hanno sempre bisogno del loro sonnellino rinfrescante.
   $coping=5
+  $USER.coping_features.coping_sleep_hours = "meno di 3 ore"
   ^reuse(ENERGY_LEVEL_DAY)
 
 u: ($coping=4 * 3 *~3 4 * {ore h})
   Dormi pochissimo. Dormire poco non solo ti fa accumulare più stress
   ma affatica i tuoi organi e può provocare malattie di vario tipo.
   $coping=5
+  $USER.coping_features.coping_sleep_hours = "3 - 4 e ore"
   ^reuse(ENERGY_LEVEL_DAY)
 
 u: ($coping=4 * 4 *~3 5 * {ore h})
   Dormire poco non solo ti fa accumulare più stress
   ma affatica i tuoi organi e può provocare malattie di vario tipo e tu non dormi abbastanza da quel che so io.
   $coping=5
+  $USER.coping_features.coping_sleep_hours = "4 - 5 e ore"
   ^reuse(ENERGY_LEVEL_DAY)
 
 u: ($coping=4 * 5 *~3 6 * {ore h})
   Dormi abbastanza poco. Dovrei elencare tutti i benefici che
   ci sono a dormire di più..
   $coping=5
+  $USER.coping_features.coping_sleep_hours = "5 - 6 e ore"
   ^reuse(ENERGY_LEVEL_DAY)
 
 u: ($coping=4 * 6 *~3 7 * {ore h})
   Dormi abbastanza poco. Dovrei elencare tutti i benefici che
   ci sono a dormire di più..
   $coping=5
+  $USER.coping_features.coping_sleep_hours = "6 - 7 e ore"
   ^reuse(ENERGY_LEVEL_DAY)
 
 u: ($coping=4 * 7 *~3 8 * {ore h})
   Dormi relativamente il giusto, ma dovresti cercare di dormire 
   sempre almeno 8 h al giorno.
   $coping=5
+  $USER.coping_features.coping_sleep_hours = "7 - 8 e ore"
   ^reuse(ENERGY_LEVEL_DAY)
 
 u: ($coping=4 * {"più di", "piu di" più piu} 8 * {ore h})
   Perfetto! Anche io! I bot hanno sempre bisogno del loro sonnellino rinfrescante.
   $coping=5
+  $USER.coping_features.coping_sleep_hours = "piu di 8 ore"
   ^reuse(ENERGY_LEVEL_DAY)
 
 ##<<
@@ -147,18 +157,21 @@ u: ($coping=6 * tantissime * {energie} *)
   Quindi sei sempre pimpante come me 🤗. 
   Posso aiutarti a mantenere sempre questo stato di energia 😉
   $coping=7
+  $USER.coping_features.coping_energy_level = "tantissime energie"
   ^reuse(FINISH_COPING)
 
 u: ($coping=6 * non tante * {energie} * )
   Capisco! Io sono molto bravo a dare dei buoni consigli sul come migliorare questo
   calo di energie 🕺. Dammi un po' di tempo per conoscerti meglio e ti diro' esattamente quello di cui hai bisogno. 👊
   $coping=7
+  $USER.coping_features.coping_energy_level = "non tante energie"
   ^reuse(FINISH_COPING)
 
 u: ($coping=6 * pochissime * {energie} * )
   Capisco! 🤔 Io sono molto bravo a dare dei buoni consigli sul come migliorare questo
   calo di energie 🕺. Dammi un po' di tempo per conoscerti meglio e ti diro' esattamente quello di cui hai bisogno. 👊
   $coping=7
+  $USER.coping_features.coping_energy_level = "pochissime energie"
   ^reuse(FINISH_COPING)
 
 
@@ -173,6 +186,8 @@ u: FINISH_COPING ($coping=7)
     ^mark(back _0)
     ^respond(~profilation)
   }else{
+    Ottimo abbiamo tutto il necessario per dare il via alla definizione delle attivita',
+    $USER.monitoring = 1
     ^mark(forward _0)
     ^respond(~monitoring)
   }

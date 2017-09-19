@@ -47,31 +47,35 @@ u: POST_INTRO ($health=2)
     $health=3
 
 
-
 u: ($health=3 * estremamente attivo *) 
   Ottimo! Sei esattamente come me $health 💑. anche io ho i circuiti sempre attivi! 🛰⚠️🏊🏻 
   $health=4
+  $USER.health_features.health_personality = "estremamente attivo"
   ^reuse(WELLBEING)
   
 
 u: ($health=3 * molto attivo * )
   Ottimo! Sei esattamente come me 💑. anche io ho i circuiti sempre attivi! 🛰⚠️🏊🏻 
   $health=4
+  $USER.health_features.health_personality = "molto attivo"
   ^reuse(WELLBEING)
 
 u: ($health=3 * molto limitato *) 
   Non è un buon segno 🤔. Ma io posso aiutarti a cambiare questa personalità! 👍👊
   $health=4
+  $USER.health_features.health_personality = "molto limitato"
   ^reuse(WELLBEING)
 
 u: ($health=3 * moderato *) 
   Ottimo! Sei esattamente come me 💑. I miei circuiti non riescono ad andare sempre alla massima velocità! 🛰⚠️🏊🏻 
   $health=4
+  $USER.health_features.health_personality = "moderato"
   ^reuse(WELLBEING)
 
 u: ($health=3 * inattivo *) 
   Mmmmh.. 🤔 Questa è una brutta abitudine, però grazie alla mia potenza di calcolo e intelligenza artificiale 🤖 puoi cambiare stile di vita!
   $health=4
+  $USER.health_features.health_personality = "inattivo"
   ^reuse(WELLBEING)
 
 u: WELLBEING ($health=4) 
@@ -92,20 +96,24 @@ u: WELLBEING ($health=4)
 u: ($health=5 * mangiare bene *) 
   Capisco $username! Quindi per te benessere e salute significa mangiare bene! Molto bene ne terrò conto.
   $health=6
+  $USER.health_features.health_wellbeing_meaning = "mangiare bene"
   ^reuse(NUTRITIONAL_STATE_RULE)
 
 u: ($health=5 * essere attivi *) 
   E' una buona definizione!
   $health=6
+  $USER.health_features.health_wellbeing_meaning = "essere attivi"
   ^reuse(NUTRITIONAL_STATE_RULE)
 
 u: ($health=5 * sentirsi rilassati *) 
   Il relax aiuta molto.
   $health=6
+  $USER.health_features.health_wellbeing_meaning = "sentirsi rilassati"
   ^reuse(NUTRITIONAL_STATE_RULE)
 
 u: ($health=5 * avere un buon aspetto *) 
   E si! avere un buon aspetto è un'ottima cosa.
+  $USER.health_features.health_wellbeing_meaning = "avere un buon aspetto"
   $health=6
   ^reuse(NUTRITIONAL_STATE_RULE)
 
@@ -113,6 +121,7 @@ u: ($health=5 * dimmelo tu *)
   Il concetto di benessere nel corso degli anni ha subito numerose modifiche e ampliamenti, che hanno condotto ad una visione del termine più ampia e completa, 
   non più incentrata sull'idea di assenza di patologie, ma come uno stato complessivo di buona salute fisica, psichica e mentale.
   $health=6
+  $USER.health_features.health_wellbeing_meaning = "non lo so"
   ^reuse(NUTRITIONAL_STATE_RULE)
 
 
@@ -140,12 +149,14 @@ u: ($health=7 * super sane *)
   Mi fa contento che sei una persona con buone abitudini.
   Ti posso aiutare a mantenerle tali.
   $health=8
+  $USER.health_features.health_nutritional_habits = "super sane"
   ^reuse(ASK_WATER)
 
 u: ($health=7 * abbastanza buone *) 
   Delle buone abitudini alimentari significano molto per una
   vita sana ed equilibrata. Possiamo migliorarle ulteriormente insieme.
   $health=8
+  $USER.health_features.health_nutritional_habits = "abbastanza buona"
   ^reuse(ASK_WATER)
 
 u: ($health=7 * normali *) 
@@ -153,6 +164,7 @@ u: ($health=7 * normali *)
   di pensarci un pò. Io comunque sono in grado di aiutare a seguire uno
   stile di vita sano ed adeguato.
   $health=8
+  $USER.health_features.health_nutritional_habits = "normali"
   ^reuse(ASK_WATER)
 
 u: ($health=7 * bisogno di una regolata *) 
@@ -160,6 +172,7 @@ u: ($health=7 * bisogno di una regolata *)
   di vita. Ho delle conoscenze molto avanzate e tanti consigli facili da 
   mettere in prattica ma con un'utilità mostruosa.
   $health=8
+  $USER.health_features.health_nutritional_habits = "ho bisogno di una regolata"
   ^reuse(ASK_WATER)
 
 u: ($health=7 * codice rosso *) 
@@ -168,6 +181,7 @@ u: ($health=7 * codice rosso *)
   di vario tipo. Ti posso aiutare a riprendere in mano il tuo stile di vita alimentare
   e tornare una persona sana e atletica.
   $health=8
+  $USER.health_features.health_nutritional_habits = "codice rosso"
   ^reuse(ASK_WATER)
 
 
@@ -187,16 +201,19 @@ u: ASK_WATER ($health=8 )
 u: ($health=9 * meno * )
   Molto male! Comunque meglio di me che non ne bevo nemmeno uno 🙈 Se ne bevessi un pò mi si brucerebberò i circuiti.
   $health=10
+  $USER.health_features.health_drinking_water = "meno di 1 Litro"
   ^reuse(FRUITS_VEGS)
 
 u: ($health=9 * tra *) \
   Mmmmh.. abbastanza poco, ma meglio di niente. 💦💦💦 Sappiamo entrambi che vanno bevuti almeno 2 litri al giorno! 👌
   $health=10
+  $USER.health_features.health_drinking_water = "tra 1 e 2 Litri"
   ^reuse(FRUITS_VEGS)
 
 u: ($health=9 * piu *) 
   Molto bene 🤙 Questa è un'abitudine che deve rimanere tale! 
   $health=10
+  $USER.health_features.health_drinking_water = "piu di 2 Litri"
   ^reuse(FRUITS_VEGS)
 
 u: FRUITS_VEGS ($health=10) 
@@ -205,6 +222,7 @@ u: FRUITS_VEGS ($health=10)
   $_responses = ^jsoncreate(array)
   ^jsonarrayinsert($_responses "meno di 2 frutti/verdure")
   ^jsonarrayinsert($_responses "1 - 2 frutti/verdure")
+  ^jsonarrayinsert($_responses "2 - 3 frutti/verdure")
   ^jsonarrayinsert($_responses "3 - 4 frutti/verdure")
   ^jsonarrayinsert($_responses "4 - 5 frutti/verdure")
   ^jsonarrayinsert($_responses "piu di 5 frutti/verdure")
@@ -216,31 +234,37 @@ u: FRUITS_VEGS ($health=10)
 u: ($health=11 * meno di 2 *) 
   Molto male!
   $health=12
+  $USER.health_features.health_vegetables_eaten = "meno di 2 frutti/verdure"
   ^reuse(ENERGY_LEVEL)
 
 u: ($health=11 * 1 * 2 *) 
   Mmmmh.. abbastanza poco, ma meglio di niente.
   $health=12
+  $USER.health_features.health_vegetables_eaten = "1 - 2 frutti/verdure"
   ^reuse(ENERGY_LEVEL)
 
 u: ($health=11 * 2 * 3 *) 
   Va bene dai, meglio di me che non ne mangio nemmeno uno 🙈
   $health=12
+  $USER.health_features.health_vegetables_eaten = "2 - 3 frutti/verdure"
   ^reuse(ENERGY_LEVEL)
 
 u: ($health=11 * 3 * 4 *) 
   Va bene dai, meglio di me che non ne mangio nemmeno uno 🙈
   $health=12
+  $USER.health_features.health_vegetables_eaten = "3 - 4 frutti/verdure"
   ^reuse(ENERGY_LEVEL)
 
 u: ($health=11 * 4 * 5 *) 
   Va bene dai, meglio di me che non ne mangio nemmeno uno 🙈
   $health=12
+  $USER.health_features.health_vegetables_eaten = "4 - 5 frutti/verdure"
   ^reuse(ENERGY_LEVEL)
 
 u: ($health=11 * piu di 5 *) 
-  Ottimo! vedo che sei uno molto salutare! Complimenti 😇👋💪🏋️
+  Ottimo! vedo che sei uno molto salutare! Complimenti 💪🏋
   $health=12
+  $USER.health_features.health_vegetables_eaten = "piu di 5 frutti/verdure"
   ^reuse(ENERGY_LEVEL)
 
 
@@ -259,16 +283,19 @@ u: ENERGY_LEVEL ($health=12)
 u: ($health=13 * basso *) 
   Sicuramente ti posso aiutare!
   $health=14
+  $USER.health_features.health_energy_level = basso
   ^reuse(MORNING)
 
 u: ($health=13 * medio *) 
   E' possibile sentirsi meglio sai questo vero?
   $health=14
+  $USER.health_features.health_energy_level = medio alto
   ^reuse(MORNING)
 
 u: ($health=13  * alto *) 
   Molto bene!
   $health=14
+  $USER.health_features.health_energy_level = alto
   ^reuse(MORNING)
 
 
@@ -289,21 +316,25 @@ u: MORNING ($health=14 )
 u: ($health=15 * 8 * ) 
   Grazie ❤️! 
   $health=16
+  $USER.notification_hour_morning = "8"
   ^reuse(EVENING)
 
 u: ($health=15 * 9 * )
   Grazie ❤️! 
   $health=16
+  $USER.notification_hour_morning = "9"
   ^reuse(EVENING)
 
 u: ($health=15 * 10 * ) 
   Grazie ❤️! 
   $health=16
+  $USER.notification_hour_morning = "10"
   ^reuse(EVENING)
 
 u: ($health=15 * 11 * ) 
   Grazie ❤️! 
   $health=16
+  $USER.notification_hour_morning = "11"
   ^reuse(EVENING)
 
 
@@ -322,21 +353,25 @@ u: EVENING ($health=16)
 u: ($health=17 * 8 * ) 
   Grazie ❤️! 
   $health=18
+  $USER.notification_hour_evening = "8"
   ^reuse(FINISH_HEALTH)
 
 u: ($health=17 * 9 * )
   Grazie ❤️! 
   $health=18
+  $USER.notification_hour_evening = "9"
   ^reuse(FINISH_HEALTH)
 
 u: ($health=17 * 10 * ) 
   Grazie ❤️! 
   $health=18
+  $USER.notification_hour_evening = "10"
   ^reuse(FINISH_HEALTH)
 
 u: ($health=17 * 11 * ) 
   Grazie ❤️! 
   $health=18
+  $USER.notification_hour_evening = "11"
   ^reuse(FINISH_HEALTH)
 
 
@@ -346,11 +381,12 @@ u: FINISH_HEALTH ($health=18)
   ^flag_on_profiling_done($USER.health $USER.coping $USER.physical $USER.mental)
 
   if ($USER.state!=1){
-    Abbiamo finito con il tpic salute, io intanto resto qui a fare una penichella 😁😴.
+    Abbiamo finito con il topic salute, io intanto resto qui a fare una penichella 😁😴.
     ^mark(back _0)
     ^respond(~profilation)
   }else{
     Ottimo abbiamo tutto il necessario per dare il via alla definizione delle attivita',
+    $USER.monitoring = 1
     ^mark(forward _0)
     ^respond(~monitoring)
   }

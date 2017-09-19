@@ -18,28 +18,59 @@ u: FITNESS_ACTIVITY ($physical=1)
     ^jsonarrayinsert($_responses "danza")
     ^jsonarrayinsert($_responses "sport di squadra")
     ^jsonarrayinsert($_responses "camminare")
+    ^jsonarrayinsert($_responses "non ho uno sport preferito")
 
     $USER.buttons = $_responses
 
 	$physical=2
 
-u: ($physical=2 * ~risp_si *)
-	Bene lo terro' a mente.
+u: ($physical=2 * ciclismo *)
+	Molto bene! Pure io mi tengo sempre allenato cosa credi.
 	$physical=4
+	$USER.physical_features.sport = "ciclismo"
 	^reuse(OFTEN)
 
-u: ($physical=2 * ~risp_no *)
-	E allora quale e'?
+u: ($physical=2 * nuoto *)
+	Molto bene! Pure io mi tengo sempre allenato cosa credi.
+	$physical=4
+	$USER.physical_features.sport = "nuoto"
+	^reuse(OFTEN)
 
-u: ($physical=2 _*)
+u: ($physical=2 * corsa *)
+	Molto bene! Pure io mi tengo sempre allenato cosa credi.
+	$physical=4
+	$USER.physical_features.sport = "corsa"
+	^reuse(OFTEN)
 
-	$_responses = ^jsoncreate(array)
-    ^jsonarrayinsert($_responses "si")
-    ^jsonarrayinsert($_responses "no")
+u: ($physical=2 * yoga *)
+	Molto bene! Pure io mi tengo sempre allenato cosa credi.
+	$physical=4
+	$USER.physical_features.sport = "yoga"
+	^reuse(OFTEN)
 
-    $USER.buttons = $_responses
-    $sport='_0
-	Quindi il tuo sport preferito e' _0 ho capito bene?
+u: ($physical=2 * danza *)
+	Molto bene! Pure io mi tengo sempre allenato cosa credi.
+	$physical=4
+	$USER.physical_features.sport = "danza"
+	^reuse(OFTEN)
+
+u: ($physical=2 * squadra *)
+	Molto bene! Pure io mi tengo sempre allenato cosa credi.
+	$physical=4
+	$USER.physical_features.sport = "sport di squadra"
+	^reuse(OFTEN)
+
+u: ($physical=2 * camminare *)
+	Molto bene! Pure io mi tengo sempre allenato cosa credi.
+	$physical=4
+	$USER.physical_features.sport = "camminare"
+	^reuse(OFTEN)
+
+u: ($physical=2 * non ho uno sport preferito *)
+	Molto bene! Pure io mi tengo sempre allenato cosa credi.
+	$physical=4
+	$USER.physical_features.sport = "nessuno sport preferito"
+	^reuse(OFTEN)
 
 
 # AGGIUNGERO UNA REGOLA PER OGNI SPORT ALTRIMENTI NON FUNZIONA
@@ -59,17 +90,20 @@ u: OFTEN ($physical=4)
 u: ($physical=5 * 3 *)
 	Molto bene! Pure io mi tengo sempre allenato cosa credi.
 	$physical=6
+	$USER.physical_features.physical_sport_frequency = "3 o piu volte in settimana"
 	^reuse(INTENSITY)
 
 
 u: ($physical=5 * 1 * {2} * )
 	Non c'e' guadagno senza dolore 😣.
 	$physical=6
+	$USER.physical_features.physical_sport_frequency = "1 / 2 volte in settimana"
 	^reuse(INTENSITY)
 
 u: ($physical=5 * quasi mai * )
 	Sarebbe l'ora di iniziare. I benefici sono infiniti!
 	$physical=6
+	$USER.physical_features.physical_sport_frequency = "quasi mai"
 	^reuse(INTENSITY)
 
 
@@ -88,16 +122,19 @@ u: INTENSITY ($physical=6)
 u: ($physical=7 * [tranquillo tranquilla] *)
 	Molto bene! 🤞 Meglio tranquilli e farlo piuttosto che non fare niente.
 	$physical=8
+	$USER.physical_features.physical_sport_intensity = "tranquilla"
 	^reuse(FITNESS_OBJ)
 
 u: ($physical=7  * media *)
 	Molto bene! 🤞
 	$physical=8
+	$USER.physical_features.physical_sport_intensity = "media"
 	^reuse(FITNESS_OBJ)
 
 u: ($physical=7  * pesante *)
 	Molto bene! 🤞 Immagino che ti diverta molto 😊.
 	$physical=8
+	$USER.physical_features.physical_sport_intensity = "pesante"
 	^reuse(FITNESS_OBJ)
 
 u: FITNESS_OBJ ($physical=8)
@@ -117,21 +154,25 @@ u: FITNESS_OBJ ($physical=8)
 u: ($physical=9 * attivo * )
 	Ooooooh yesss! Sono molto bravo a fare questo. Posso aiutarti molto nel raggiungere i tuoi obiettivi
 	$physical=10
+	$USER.physical_features.physical_goal = "essere piu' attivo"
 	^reuse(FINISH_PHYSICAL)
 
 u: ($physical=9 * migliorare * )
 	Ooooooh yesss! Sono molto bravo a fare questo. Posso aiutarti molto nel raggiungere i tuoi obiettivi
 	$physical=10
+	$USER.physical_features.physical_goal = "migliorare i tempi"
 	^reuse(FINISH_PHYSICAL)
 
 u: ($physical=9 * perdere peso * )
 	Ooooooh yesss! Sono molto bravo a fare questo. Posso aiutarti molto nel raggiungere i tuoi obiettivi
 	$physical=10
+	$USER.physical_features.physical_goal = "perdere peso"
 	^reuse(FINISH_PHYSICAL)
 
 u: ($physical=9 * mangiare piu sano * )
 	Ooooooh yesss! Sono molto bravo a fare questo. Posso aiutarti molto nel raggiungere i tuoi obiettivi
 	$physical=10
+	$USER.physical_features.physical_goal = "mangiare piu sano"
 	^reuse(FINISH_PHYSICAL)
 
 u: FINISH_PHYSICAL ($physical=10 )
@@ -145,7 +186,7 @@ u: FINISH_PHYSICAL ($physical=10 )
 	    ^respond(~profilation)
 	}else{
 		Ottimo abbiamo tutto il necessario per dare il via alla definizione delle attivita'.
-
+		$USER.monitoring = 1
 	    ^mark(forward _0)
 		^respond(~monitoring)
 	}

@@ -23,26 +23,31 @@ u: NERVOUS ($mental=1)
 u: ($mental=2 sempre)
 	Mi spiace $username! 😥 Cercherò di pensare ad un rimedio!
 	$mental=3
+	$USER.mental_features.mental_nervous = "sempre"
 	^reuse(DEPRESSED)
 
 u: ($mental=2 spesso)
 	E' un peccato! 😞 Faremo qualcosa per migliorare, tieniti pronto!
 	$mental=3
+	$USER.mental_features.mental_nervous = "spesso"
 	^reuse(DEPRESSED)
 
 u: ($mental=2 <a volte)
 	Piano piano spero di aiutarti ad allontanare del tutto questo stato d'animo! Sono fiducioso 🙃!
 	$mental=3
+	$USER.mental_features.mental_nervous = "a volte"
 	^reuse(DEPRESSED)
 
 u: ($mental=2 <poche volte)
 	E' un bene ma se lavoriamo sodo possiamo eliminare anche questo malessere 🙃!
 	$mental=3
+	$USER.mental_features.mental_nervous = "pochissime volte"
 	^reuse(DEPRESSED)
 
 u: ($mental=2 * mai *)
 	Ottimo! Meglio così! Siamo sulla stessa barca, nemmeno io mi sono sentito nervoso ultimamente 🙂.
 	$mental=3
+	$USER.mental_features.mental_nervous = "mai"
 	^reuse(DEPRESSED)
 
 u: DEPRESSED ($mental=3)
@@ -61,26 +66,31 @@ u: DEPRESSED ($mental=3)
 u: ($mental=4 sempre)
 	Capisco! Mi attivero' i circuiti nella cerca di una soluzione immediatamente!
 	$mental=5
+	$USER.mental_features.mental_depressed = "sempre"
 	^reuse(WORTHLESS)
 
 u: ($mental=4 spesso)
 	Capisco! Mi attivero' i circuiti nella cerca di una soluzione immediatamente!
 	$mental=5
+	$USER.mental_features.mental_depressed = "spesso"
 	^reuse(WORTHLESS)
 
 u: ($mental=4 <a volte)
 	Dobbiamo lavorare su questa cosa 💪! 
 	$mental=5
+	$USER.mental_features.mental_depressed = "a volte"
 	^reuse(WORTHLESS)
 
 u: ($mental=4 <poche volte)
 	Va anche bene ma l umore si puo' alzare piu' di cosi, qualche consiglio utile non ti guasterebbe 😁!
 	$mental=5
+	$USER.mental_features.mental_depressed = "pochissime volte"
 	^reuse(WORTHLESS)
 
 u: ($mental=4 * mai *)
 	Ottima cosa, hai l umore alto quasi come un bot 🤣!
 	$mental=5
+	$USER.mental_features.mental_depressed = "mai"
 	^reuse(WORTHLESS)
 
 
@@ -101,26 +111,31 @@ u: WORTHLESS ($mental=5)
 u: ($mental=6 sempre)
 	Non va per niente bene!
 	$mental=7
+	$USER.mental_features.mental_worthless = "sempre"
 	^reuse(EFFORT)
 
 u: ($mental=6 spesso)
 	Capisco! Mi attivero' i circuiti nella cerca di una soluzione immediatamente!
 	$mental=7
+	$USER.mental_features.mental_worthless = "spesso"
 	^reuse(EFFORT)
 
 u: ($mental=6 <a volte)
 	Dobbiamo lavorare su questa cosa 💪! 
 	$mental=7
+	$USER.mental_features.mental_worthless = "a volte"
 	^reuse(EFFORT)
 
 u: ($mental=6 <poche volte)
 	Ti aiuterò a eliminare quelle situazioni o almeno farò di tutto per aiutarti 😁!
 	$mental=7
+	$USER.mental_features.mental_worthless = "pochissime volte"
 	^reuse(EFFORT)
 
 u: ($mental=6 * mai *)
 	Molto bene 🤣!
 	$mental=7
+	$USER.mental_features.mental_worthless = "mai"
 	^reuse(EFFORT)
 
 
@@ -140,25 +155,30 @@ u: EFFORT ($mental=7)
 u: ($mental=8 sempre)
 	Mi spiace! Dobbiamo lavorare su questo.
 	$mental=9
+	$USER.mental_features.mental_effort = "sempre"
 	^reuse(FINISH_MENTAL)
 
 u: ($mental=8 spesso)
 	Mannaggia! Mi metto subito alla ricerca di qualche consiglio.
 	$mental=9
+	$USER.mental_features.mental_effort = "spesso"
 	^reuse(FINISH_MENTAL)
 
 u: ($mental=8 <a volte)
 	Dobbiamo lavorare su questa cosa 💪! 
 	$mental=9
+	$USER.mental_features.mental_effort = "a volte"
 	^reuse(FINISH_MENTAL)
 
 u: ($mental=8 <poche volte)
 	Possiamo arrivare ad evitare anche quelle poche volte 😁!
 	$mental=9
+	$USER.mental_features.mental_effort = "pochissime volte"
 	^reuse(FINISH_MENTAL)
 
 u: ($mental=8 mai)
 	Ottimo, sei quasi perfetto come me 🤣!
+	$USER.mental_features.mental_effort = "mai"
 	$mental=9
 	^reuse(FINISH_MENTAL)
 
@@ -177,7 +197,7 @@ u: FINISH_MENTAL ($mental=9)
 	}else{
 		Ottimo abbiamo tutto il necessario per dare il via alla definizione delle attivita', 
 		ti notifichero' non appena queste saranno definite
-
+    	$USER.monitoring = 1
 		^mark(forward _0)
 		^respond(~monitoring)
 	}
@@ -194,7 +214,7 @@ u: STOP ( * ~stop_here * )
 
     ^respond(~profilation)
 
-##<<
+
 u: DEFAULT()
 	^preprint(Mi sa che mi si sono fusi un pò i circuiti e non ho capito il tuo messaggio 😂 
     Vediamo se mi ricordo di cosa stavamo parlando.. Ah si.. )
@@ -228,7 +248,7 @@ u: DEFAULT()
 
 
 
-
+##<<
 
 	$USER.mental=1
 

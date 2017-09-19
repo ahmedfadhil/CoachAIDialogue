@@ -15,7 +15,7 @@ $cs_control_main = ~control
 # input has been processed, and allows you to examine all the outputs generated to
 # do postprocessing like generating additional emotional data or detecting pronoun
 # resolution information.
-$cs_control_post = ~MYPOSTPROCESS  # uncomment to enable talk
+$cs_control_post = ~MYPOSTPROCESS 
 
 # will adjust spell checking for italian if available
 $cs_language = italian
@@ -34,22 +34,16 @@ DATA:
 harry
 
 
-
-
 topic: ~MYPOSTPROCESS system ()
-
 t:  $_tmp=^jsonwrite($USER)
-    ^preprint(\[ $_tmp \])
-
+    ^postprintbefore(\[ $_tmp \])
 
 
 
 topic: ~control system ()
-
 # on startup, do introduction
 # u: ( %input<%userfirstline)
 #	 ^respond(~dispatcher)
-
 # handle the state of the user from the rails server 
 # and parse it into a Chatscript fact object
 u: ( \[ _* )  
@@ -76,5 +70,5 @@ u: () # main per-sentence processing
 	if (%response == $_responseCount) 
 	{
 		 ^repeat() 
-		 Non so che dire!
+		 UNKNOWN
 	}
