@@ -137,45 +137,64 @@ u: ($physical=7  * pesante *)
 	$USER.physical_features.physical_sport_intensity = "pesante"
 	^reuse(FITNESS_OBJ)
 
-u: FITNESS_OBJ ($physical=8)
-	Buono, sì, sempre in movimento 👣
-	Quali sarebbero i tuoi obiettivi di fitness 2017? 🏆
-	Io per esempiooglio battere il mio MRPB: miglior risultato personale bot 😊🙃🏅
+u: FITNESS_OBJ ($physical=8)👣
+	Chiudiamo con un'ultima domanda. Il tuo lavoro richiede di piu' stare seduti o muoversi?
 	
 	$_responses = ^jsoncreate(array)
-    ^jsonarrayinsert($_responses "Essere piu attivo")
-    ^jsonarrayinsert($_responses "migliorare i miei tempi")
-    ^jsonarrayinsert($_responses "perdere peso")
-    ^jsonarrayinsert($_responses "mangiare piu sano")
+    ^jsonarrayinsert($_responses "muoversi")
+    ^jsonarrayinsert($_responses "entrambe")
+    ^jsonarrayinsert($_responses "stare_seduti")
 
     $USER.buttons = $_responses	
 	$physical=9
 
-u: ($physical=9 * attivo * )
+u: ($physical=9 * muoversi * )
 	Ooooooh yesss! Sono molto bravo a fare questo. Posso aiutarti molto nel raggiungere i tuoi obiettivi
 	$physical=10
-	$USER.physical_features.physical_goal = "essere piu' attivo"
-	^reuse(FINISH_PHYSICAL)
+	$USER.physical_features.work_physical_activity = "Mostly moving (Involves movement more than 3days per week)"
+	^reuse(FOOT_BICYCLE)
 
-u: ($physical=9 * migliorare * )
+u: ($physical=9 * entrambe * )
 	Ooooooh yesss! Sono molto bravo a fare questo. Posso aiutarti molto nel raggiungere i tuoi obiettivi
 	$physical=10
-	$USER.physical_features.physical_goal = "migliorare i tempi"
-	^reuse(FINISH_PHYSICAL)
+	$USER.physical_features.work_physical_activity = "Moderate (involves both sitting and moving)"
+	^reuse(FOOT_BICYCLE)
 
-u: ($physical=9 * perdere peso * )
+u: ($physical=9 * stare seduti * )
 	Ooooooh yesss! Sono molto bravo a fare questo. Posso aiutarti molto nel raggiungere i tuoi obiettivi
 	$physical=10
-	$USER.physical_features.physical_goal = "perdere peso"
+	$USER.physical_features.work_physical_activity = "Mostly sitting (Involves movement less than 30 minutes per week)"
+	^reuse(FOOT_BICYCLE)
+
+u: FOOT_BICYCLE ($physical=10) Quanto spesso vai in gito in bicicletta o a piedi?
+	$_responses = ^jsoncreate(array)
+    ^jsonarrayinsert($_responses "spesso")
+    ^jsonarrayinsert($_responses "a volte")
+    ^jsonarrayinsert($_responses "raramente")
+
+    $USER.buttons = $_responses
+    $physical=11
+
+u: ($physical=11 * spesso * )
+	Molto bene! Sei una persona carica!
+	$physical=12
+	$USER.physical_features.foot_bicycle = "Mostly moving (Involves movement more than 3days per week)"
 	^reuse(FINISH_PHYSICAL)
 
-u: ($physical=9 * mangiare piu sano * )
-	Ooooooh yesss! Sono molto bravo a fare questo. Posso aiutarti molto nel raggiungere i tuoi obiettivi
-	$physical=10
-	$USER.physical_features.physical_goal = "mangiare piu sano"
+u: ($physical=11 * a volte * )
+	Meglio di niente.
+	$physical=12
+	$USER.physical_features.foot_bicycle = "> 3 times a week"
 	^reuse(FINISH_PHYSICAL)
 
-u: FINISH_PHYSICAL ($physical=10 )
+u: ($physical=11 * raramente * )
+	Ogni tanto dovresti sforzarti a farlo!
+	$physical=12
+	$USER.physical_features.foot_bicycle = "1-2 times a week , Rarely"
+	^reuse(FINISH_PHYSICAL)
+
+
+u: FINISH_PHYSICAL ($physical=12 )
 	# set that topic was completed
     $USER.physical = 1
 	^flag_on_profiling_done($USER.health $USER.coping $USER.physical $USER.mental)

@@ -20,8 +20,5 @@ u: (back)
 	$USER.monitoring = 1	
 	^unmark(back _0)
 
-u: (we)
-	^upload_health_features()
-
 
 	

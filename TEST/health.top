@@ -4,78 +4,69 @@ topic: ~health repeat keep []
 
 u: INTRO ($health=0 * ~topic_salute *) 
     Sono qui per aiutare a migliorare il tuo benessere e farti sentire al meglio 💪 💪 💪 ! 
-    Pensa a me come ad un Personal Trainer 🏋️ Suona bene? 🎧
+    Pensa a me come ad un Personal Trainer 🏋️ 
+    Inizia dicendomi che eta' hai?
     
-    $_responses = ^jsoncreate(array)
-    ^jsonarrayinsert($_responses "si")
-    ^jsonarrayinsert($_responses "no")
-    ^jsonarrayinsert($_responses "un po")
-
-    $USER.buttons = $_responses
     $health=1
 
 
-u: ($health=1 * ~risp_si *) 
-    Sono Contento che ti piaccia $username! 👋👊 
-    $health = 2
+u: ($health=1 _~number) 
+    Confermi di avere _0 anni?
+    $age = _0
+
+u: ($health=1 ~risp_si) 
+    Ottimo! E' molto importante che il coach sappia la tua eta'.
+    $USER.health_features.age = $age
     ^reuse(POST_INTRO)
 
-u: ($health=1 * ~risp_no *) 
-    $username cercherò di mostrati la mia vera forza e dopo non potrai non amarmi 😘! 👋👊 
-    $health = 2
-    ^reuse(POST_INTRO)
-
-u: ($health=1 *un po *) 
-    Piano piano inizierai ad amarmi $username! 👋👊 E' un fatto certo 😊😇
-    $health = 2
-    ^reuse(POST_INTRO)
+u: ($health=1 ~risp_no) 
+    Ok. Ma allora qual'e' la tua eta'?
 
 
 u: POST_INTRO ($health=2) 
     👍 Mi diverto un mondo a mandarti suggerimenti e abbracci 🤗
     Raccontami qualcosa in piu' di te $username! 🎤 
-    Quali tra queste descrive meglio la tua personalità? Scegli una tra le opzioni disponibili 👇
+    Se dovessi dare un voto da 1 a 5 come valuteresti complessivamente la tua salute? 👇
     
     $_responses = ^jsoncreate(array)
-    ^jsonarrayinsert($_responses "estremamente attivo")
-    ^jsonarrayinsert($_responses "molto attivo")
-    ^jsonarrayinsert($_responses "moderato")
-    ^jsonarrayinsert($_responses "molto limitato")
-    ^jsonarrayinsert($_responses "inattivo")
+    ^jsonarrayinsert($_responses "1")
+    ^jsonarrayinsert($_responses "2")
+    ^jsonarrayinsert($_responses "3")
+    ^jsonarrayinsert($_responses "4")
+    ^jsonarrayinsert($_responses "5")
 
     $USER.buttons = $_responses
     $health=3
 
 
-u: ($health=3 * estremamente attivo *) 
-  Ottimo! Sei esattamente come me $health 💑. anche io ho i circuiti sempre attivi! 🛰⚠️🏊🏻 
+u: ($health=3 * 1 *) 
+  Mmmmmh! 
   $health=4
-  $USER.health_features.health_personality = "estremamente attivo"
+  $USER.health_features.health_personality = 1
   ^reuse(WELLBEING)
   
 
-u: ($health=3 * molto attivo * )
-  Ottimo! Sei esattamente come me 💑. anche io ho i circuiti sempre attivi! 🛰⚠️🏊🏻 
+u: ($health=3 * 2 * )
+   Mmmmmh, non andiamo benissimo.
   $health=4
-  $USER.health_features.health_personality = "molto attivo"
+  $USER.health_features.health_personality = 2
   ^reuse(WELLBEING)
 
-u: ($health=3 * molto limitato *) 
-  Non è un buon segno 🤔. Ma io posso aiutarti a cambiare questa personalità! 👍👊
+u: ($health=3 * 3 *) 
+  Non è un buon segno 🤔 Ma io posso aiutarti a cambiare questa personalità!
   $health=4
-  $USER.health_features.health_personality = "molto limitato"
+  $USER.health_features.health_personality = 3
   ^reuse(WELLBEING)
 
-u: ($health=3 * moderato *) 
-  Ottimo! Sei esattamente come me 💑. I miei circuiti non riescono ad andare sempre alla massima velocità! 🛰⚠️🏊🏻 
-  $health=4
-  $USER.health_features.health_personality = "moderato"
+u: ($health=3 * 4 *) 
+  Ho visto di peggio dai 🤔.
+  $USER.health_features.health_personality = 4
   ^reuse(WELLBEING)
 
-u: ($health=3 * inattivo *) 
-  Mmmmh.. 🤔 Questa è una brutta abitudine, però grazie alla mia potenza di calcolo e intelligenza artificiale 🤖 puoi cambiare stile di vita!
+u: ($health=3 * 5 *) 
+  Ottimo, sei esattamente come me 💑, i miei circuiti non riescono ad andare sempre alla massima velocità!
   $health=4
-  $USER.health_features.health_personality = "inattivo"
+  $USER.health_features.health_personality = 5
   ^reuse(WELLBEING)
 
 u: WELLBEING ($health=4) 

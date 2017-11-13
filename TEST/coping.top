@@ -7,7 +7,7 @@ u: INTRO ($coping=0)
   ^reuse(FEELING_NOW)
 
 u: FEELING_NOW ($coping=1)  
-  Parlando di stress come ti senti ora? 
+  Come valuteresti la quantita' di stress nella tua vita? 
   $_responses = ^jsoncreate(array)
   ^jsonarrayinsert($_responses "mega stressato")
   ^jsonarrayinsert($_responses "poco stressato")
@@ -18,20 +18,20 @@ u: FEELING_NOW ($coping=1)
 
 u: ($coping=2 * mega *)
   Mi sa che hai bisogno di un po' di aiuto per regolare questo stato d'animo.🤒
-  $USER.coping_features.coping_stress = "mega stressato"
+  $USER.coping_features.coping_stress = "High"
   $coping=3
   ^reuse(ASK_SLEEP)
 
 u: ($coping=2 * poco *)
   Si può arrivare a non essere stressati se si segue una routine sana.
   $coping=3
-  $USER.coping_features.coping_stress = "poco stressato"
+  $USER.coping_features.coping_stress = "Medium"
   ^reuse(ASK_SLEEP)
 
 u: ($coping=2 * niente *)
   Se ti senti zero stressato si può migliorare comunque.
   $coping=3
-  $USER.coping_features.coping_stress = "per niente stressato"
+  $USER.coping_features.coping_stress = "Low"
   ^reuse(ASK_SLEEP)
 
 u: ASK_SLEEP ($coping=3) 
