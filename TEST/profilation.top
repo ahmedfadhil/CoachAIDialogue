@@ -76,36 +76,5 @@ u: (*)
   ^set_buttons_on_return_profilation($USER.health $USER.coping $USER.physical $USER.mental)
   ^remains_to_profile($USER.health $USER.coping $USER.physical $USER.mental). A te la scelta!
 
-##<<
-
-u: ( * ~topic_attivita_fisica * )
-  # impostare stato utente per l'attivita fisica
-  # potremmo fare qualche check per vedere se lo ha già completato o meno questo topic
-  $physical_activity=0
-  ^respond(~physical_activity)
-
-u: ( * ~topic_benessere_mentale *)
-    $wellbeing=0
-    ^respond(~mental_wellbeing)
 
 
-u: ( * intro * ) Le introduzioni le abbiamo già fatte. Di cos'altro vorresti parlare?
-      Digita una delle opzioni: salute, attivita fisica, consapevolezza.
-
- 
-u: ( * [~stop_here ~risp_si ~go_on ~risp_no]  *) 
-  ^preprint(\[ salute,attivita fisica,strategia di adattamento,benessere mentale \])
-  Ti ricordo che i topic di cui puoi parlare sono: 
-  salute 🔬, attivita' fisica 🏋️, strategia di adattamento 🤔, benessere mentale 😇.
-
-
-u: ( * ~help * ) 
-  ^preprint(\[ salute,attivita fisica,strategia di adattamento,benessere mentale \])
-  I topic di cui possiamo parlare sono: salute 🔬, attivita' fisica 🏋️, strategia di adattamento 🤔, benessere mentale 😇.
-  Inoltre hai a disposizione 2 comandi speciali: 
-    \t /start - per iniziare la conversazione
-    \t /reset - per resettare il dialogo
-
-u: ()
-  UNKNOWN
-  ##>>

@@ -76,6 +76,8 @@ outputmacro: ^calculate_physical_default()
 		$physical=6
 	}else if($physical==9){
 		$physical=8
+	}else if($physical==11){
+		$physical=10
 	}
 
 

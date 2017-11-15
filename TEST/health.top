@@ -376,9 +376,7 @@ u: FINISH_HEALTH ($health=18)
     ^mark(back _0)
     ^respond(~profilation)
   }else{
-    Ottimo abbiamo tutto il necessario per dare il via alla definizione delle attivita',
     $USER.monitoring = 1
-    ^mark(forward _0)
     ^respond(~monitoring)
   }
 

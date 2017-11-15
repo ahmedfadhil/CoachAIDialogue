@@ -103,29 +103,30 @@ u: MINDFULLNESS ($tips=1 * ~consapevolezza *)
 	$USER.buttons = $_responses
 	$tips=4
 
-u: ($tips=3 * ancora *)
-	$tips=1
-	^reuse(FITNESS)
 
-u: ($tips=2 * ancora * )
-	$tips=1
-	^reuse(NUTRITION)
-
-u: ($tips=2 * ancora * )
-	$tips=4
-	^reuse(MINDFULLNESS)
-
-
-# per il basta faccio un unica regola
-
-# devo fare in modo che lui possa richiedere altri consigli invece che uscire dal topic
 u: (* ~stop_here *)
 	$tips=0
 	🙈 Va bene, decidi tu capo di cosa parliamo 😁😆 Io vado a lavarmi i denti 😁😁 quando cambi
     idea vieni qui e chidimi di parlare di \" strategie di adattamento \" . Io resto qui ad aspattarti. A dopo!
+    
     ^mark(back _0)
     ^addtopic(~monitoring)
     ^respond(~monitoring)
+
+u: ($tips=3)
+	$tips=1
+	^reuse(FITNESS)
+
+u: ($tips=2)
+	$tips=1
+	^reuse(NUTRITION)
+
+u: ($tips=4)
+	$tips=1
+	^reuse(MINDFULLNESS)
+
+
+
 
 u: DEFAULT ()
 	# controllo in che stato era rimasto l utente ed in base a questo lo rimando alla regola piu' adatta

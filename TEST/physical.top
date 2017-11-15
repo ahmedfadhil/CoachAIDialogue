@@ -138,7 +138,7 @@ u: ($physical=7  * pesante *)
 	^reuse(FITNESS_OBJ)
 
 u: FITNESS_OBJ ($physical=8)👣
-	Chiudiamo con un'ultima domanda. Il tuo lavoro richiede di piu' stare seduti o muoversi?
+	Il tuo lavoro richiede di piu' stare seduti o muoversi?
 	
 	$_responses = ^jsoncreate(array)
     ^jsonarrayinsert($_responses "muoversi")
@@ -151,22 +151,22 @@ u: FITNESS_OBJ ($physical=8)👣
 u: ($physical=9 * muoversi * )
 	Ooooooh yesss! Sono molto bravo a fare questo. Posso aiutarti molto nel raggiungere i tuoi obiettivi
 	$physical=10
-	$USER.physical_features.work_physical_activity = "Mostly moving (Involves movement more than 3days per week)"
+	$USER.physical_features.work_physical_activity = 2
 	^reuse(FOOT_BICYCLE)
 
 u: ($physical=9 * entrambe * )
 	Ooooooh yesss! Sono molto bravo a fare questo. Posso aiutarti molto nel raggiungere i tuoi obiettivi
 	$physical=10
-	$USER.physical_features.work_physical_activity = "Moderate (involves both sitting and moving)"
+	$USER.physical_features.work_physical_activity = 1
 	^reuse(FOOT_BICYCLE)
 
 u: ($physical=9 * stare seduti * )
 	Ooooooh yesss! Sono molto bravo a fare questo. Posso aiutarti molto nel raggiungere i tuoi obiettivi
 	$physical=10
-	$USER.physical_features.work_physical_activity = "Mostly sitting (Involves movement less than 30 minutes per week)"
+	$USER.physical_features.work_physical_activity = 0
 	^reuse(FOOT_BICYCLE)
 
-u: FOOT_BICYCLE ($physical=10) Quanto spesso vai in gito in bicicletta o a piedi?
+u: FOOT_BICYCLE ($physical=10) Quanto spesso vai in giro in bicicletta o a piedi?
 	$_responses = ^jsoncreate(array)
     ^jsonarrayinsert($_responses "spesso")
     ^jsonarrayinsert($_responses "a volte")
@@ -178,24 +178,24 @@ u: FOOT_BICYCLE ($physical=10) Quanto spesso vai in gito in bicicletta o a piedi
 u: ($physical=11 * spesso * )
 	Molto bene! Sei una persona carica!
 	$physical=12
-	$USER.physical_features.foot_bicycle = "Mostly moving (Involves movement more than 3days per week)"
+	$USER.physical_features.foot_bicycle = 2
 	^reuse(FINISH_PHYSICAL)
 
 u: ($physical=11 * a volte * )
 	Meglio di niente.
 	$physical=12
-	$USER.physical_features.foot_bicycle = "> 3 times a week"
+	$USER.physical_features.foot_bicycle = 1
 	^reuse(FINISH_PHYSICAL)
 
 u: ($physical=11 * raramente * )
 	Ogni tanto dovresti sforzarti a farlo!
 	$physical=12
-	$USER.physical_features.foot_bicycle = "1-2 times a week , Rarely"
+	$USER.physical_features.foot_bicycle = 0
 	^reuse(FINISH_PHYSICAL)
 
 
 u: FINISH_PHYSICAL ($physical=12 )
-	# set that topic was completed
+	# set topic completed
     $USER.physical = 1
 	^flag_on_profiling_done($USER.health $USER.coping $USER.physical $USER.mental)
 
@@ -204,9 +204,7 @@ u: FINISH_PHYSICAL ($physical=12 )
 		^mark(back _0)
 	    ^respond(~profilation)
 	}else{
-		Ottimo abbiamo tutto il necessario per dare il via alla definizione delle attivita'.
-		$USER.monitoring = 1
-	    ^mark(forward _0)
+		$USER.monitoring=1
 		^respond(~monitoring)
 	}
 
@@ -218,6 +216,10 @@ u: STOP ( * ~stop_here * )
 	^calculate_physical_default()
     $profilation=0
     ^respond(~profilation)
+
+u: (ciaoooo)
+	Ottimo abbiamo tutto il necessario per dare il via alla definizione delle attivita'.
+	^respond(~monitoring)
 
 u: DEFAULT ()
 	Che asino che sono 🐎🙈! Penso di non aver capito ma mi sa che eravamo rimasti qua.. 
@@ -237,6 +239,9 @@ u: DEFAULT ()
 	}else if($physical==9){
 		$physical=8
 		^reuse(FITNESS_OBJ)
+	}else if($physical==11){
+		$physical=10
+		^reuse(FOOT_BICYCLE)
 	}
 
 

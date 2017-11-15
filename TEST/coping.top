@@ -18,20 +18,20 @@ u: FEELING_NOW ($coping=1)
 
 u: ($coping=2 * mega *)
   Mi sa che hai bisogno di un po' di aiuto per regolare questo stato d'animo.🤒
-  $USER.coping_features.coping_stress = "High"
+  $USER.coping_features.coping_stress = 2
   $coping=3
   ^reuse(ASK_SLEEP)
 
 u: ($coping=2 * poco *)
   Si può arrivare a non essere stressati se si segue una routine sana.
   $coping=3
-  $USER.coping_features.coping_stress = "Medium"
+  $USER.coping_features.coping_stress = 1
   ^reuse(ASK_SLEEP)
 
 u: ($coping=2 * niente *)
   Se ti senti zero stressato si può migliorare comunque.
   $coping=3
-  $USER.coping_features.coping_stress = "Low"
+  $USER.coping_features.coping_stress = 0
   ^reuse(ASK_SLEEP)
 
 u: ASK_SLEEP ($coping=3) 
@@ -95,51 +95,6 @@ u: ($coping=4 * {"più di", "piu di" più piu} 8 * {ore h})
   $USER.coping_features.coping_sleep_hours = "piu di 8 ore"
   ^reuse(ENERGY_LEVEL_DAY)
 
-##<<
-u: ($sleep=1 * _~noun_number *)
-  ^preprint(\[ proseguiamo,fermiamoci \])
-  Quindi dormi circa _0 ore per notte.
-  $sleep_nr = '_0
-  if ($sleep_nr<0.0){
-    Spiritoso! 
-    ^reuse(ASK_SLEEP)
-  }
-  if($sleep_nr >= 0.0 AND $sleep_nr <= 3.0){
-    Molto male! Dormire poco non solo ti fa accumulare più stress
-    ma affatica i tuoi organi e può provocare malattie di vario tipo.
-    $sleep = 2
-    $coping_data_collector=3
-  }
-  if($sleep_nr > 3.0 AND $sleep_nr < 4.0){
-    Molto male! Dormire poco non solo ti fa accumulare più stress
-    ma affatica i tuoi organi e può provocare malattie di vario tipo.
-      $sleep = 2
-      $coping_data_collector=3
-  }
-  if($sleep_nr >= 4.0 AND $sleep_nr < 6.0){
-    Dormi abbastanza poco. Dovrei elencare tutti i benefici che
-     ci sono a dormire di più..
-     $sleep = 2
-     $coping_data_collector=3
-  }
-  if($sleep_nr >= 6.0 AND $sleep_nr < 7.0){
-    Dormi abbastanza poco. Dovrei elencare tutti i benefici che
-     ci sono a dormire di più..
-     $sleep = 2
-     $coping_data_collector=3
-  }
-  if($sleep_nr >= 7.0 AND $sleep_nr < 8.0){
-    Dormi relativamente il giusto, ma dovresti cercare di dormire 
-    sempre almeno 8 h al giorno.
-    $sleep = 2
-    $coping_data_collector=3
-  }
-  if($sleep_nr >= 8.0){
-    Perfetto! Anche io! I bot hanno sempre bisogno del loro sonnellino rinfrescante.
-    $sleep = 2
-    $coping_data_collector=3
-  }
-    ##>>
 
 u: ENERGY_LEVEL_DAY ($coping=5) 
   E quanto è il tuo livello di energia 💪 durante il giorno?
@@ -186,13 +141,9 @@ u: FINISH_COPING ($coping=7)
     ^mark(back _0)
     ^respond(~profilation)
   }else{
-    Ottimo abbiamo tutto il necessario per dare il via alla definizione delle attivita',
     $USER.monitoring = 1
-    ^mark(forward _0)
     ^respond(~monitoring)
   }
-
-
 
 
 u: STOP ( * ~stop_here * )  

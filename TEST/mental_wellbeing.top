@@ -195,10 +195,7 @@ u: FINISH_MENTAL ($mental=9)
 	    ^respond(~profilation)
 
 	}else{
-		Ottimo abbiamo tutto il necessario per dare il via alla definizione delle attivita', 
-		ti notifichero' non appena queste saranno definite
     	$USER.monitoring = 1
-		^mark(forward _0)
 		^respond(~monitoring)
 	}
 
@@ -237,51 +234,3 @@ u: DEFAULT()
 		^reuse(EFFORT)
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-##<<
-
-	$USER.mental=1
-
-	$_tmp_health = $USER.health
-	$_tmp_coping = $USER.coping
-	$_tmp_physical = $USER.physical
-	$_tmp_mental = $USER.mental
-
-	^flag_on_profiling_done($_tmp_health $_tmp_coping $_tmp_physical $_tmp_mental)
-	$_tmp_state = $USER.state
-
-	if ($_tmp_state!=1){
-		Grazie per aver risposto a queste domande.  
-		Utilizzero' questo punteggio come una base per andare avanti!
-		Tuttavia, questo risultato verrà inviato al tuo allenatore per informarlo della tua performance.
-
-	    Possiamo parlare ancora di:
-	    ^remains_to_profile($_tmp_health $_tmp_coping $_tmp_physical $_tmp_mental) a te la scelta!
-
-	    ^set_buttons_on_return_profilation($_tmp_health $_tmp_coping $_tmp_physical $_tmp_mental)
-	    
-	    $_tmp=^jsonwrite($USER)
-	    ^postprintbefore(\[ $_tmp \])
-
-	    ^addtopic(~profilation)
-	    ^respond(~profilation)
-	}else{
-		$_tmp=^jsonwrite($USER)
-		^postprintbefore(\[ $_tmp \])
-
-		Ottimo abbiamo tutto il necessario per dare il via alla definizione delle attivita', ti notifichero' non appena queste saranno definite
-
-		^addtopic(~monitoring)
-		^respond(~monitoring)
-	}
-##>>
