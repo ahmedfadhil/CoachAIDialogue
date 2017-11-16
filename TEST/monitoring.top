@@ -1,8 +1,5 @@
 topic: ~monitoring repeat keep []
 
-#! [forward - from profiling]
-
-
 #! [tips - consigli]
 u: (* [tips consigli] *)
 	$tips=0
@@ -10,7 +7,9 @@ u: (* [tips consigli] *)
 	^respond(~tips)
 
 u: (back)
-	$USER.monitoring = 1	
+	A dopo!
+	$USER.monitoring = 1
+	$USER.state = 1	
 	^unmark(back _0)
 
 u: ()
