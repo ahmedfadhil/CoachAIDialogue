@@ -1,9 +1,7 @@
 topic: ~dispatcher keep repeat []
 
 
-u: ($state=0 start) Iniziamo la tua profilatura. 
-	In breve ti faro' qualche domanda per capire meglio chi sei e quali sono le tue abitudini. 
-	Prometto che questa cosa la faremo una sola volta, a meno che tu non voglia rifarla piu' avanti.
+u: ($state=0 start) Per iniziare ti faro' qualche domanda per capire meglio chi sei e quali sono le tue abitudini. 
 
 	$profilation=0
 	^respond(~profilation)

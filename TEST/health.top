@@ -3,10 +3,9 @@ topic: ~health repeat keep []
 # i topic di introduzione andranno visualizzati solo una volta oppure verranno scelte delle rule a caso 
 
 u: INTRO ($health=0 * ~topic_salute *) 
-    Sono qui per aiutare a migliorare il tuo benessere e farti sentire al meglio 💪 💪 💪 ! 
+    Sono un'intelligenza artificiale che si prende cura della tua salute! 
     Pensa a me come ad un Personal Trainer 🏋️ 
     Inizia dicendomi che eta' hai?
-    
     $health=1
 
 
@@ -15,7 +14,7 @@ u: ($health=1 _~number)
     $age = _0
 
 u: ($health=1 ~risp_si) 
-    Ottimo! E' molto importante che il coach sappia la tua eta'.
+    Ottimo! E' molto importante che io sappia la tua eta'.
     $USER.health_features.age = $age
     ^reuse(POST_INTRO)
 
@@ -25,8 +24,8 @@ u: ($health=1 ~risp_no)
 
 u: POST_INTRO ($health=2) 
     👍 Mi diverto un mondo a mandarti suggerimenti e abbracci 🤗
-    Raccontami qualcosa in piu' di te $username! 🎤 
-    Se dovessi dare un voto da 1 a 5 come valuteresti complessivamente la tua salute? 👇
+    Raccontami qualcosa in piu' su di te $username! 🎤 
+    Se dovessi dare un voto da 1(insufficiente) a 5(ottimo) come valuteresti complessivamente la tua salute? 👇
     
     $_responses = ^jsoncreate(array)
     ^jsonarrayinsert($_responses "1")
@@ -40,7 +39,7 @@ u: POST_INTRO ($health=2)
 
 
 u: ($health=3 * 1 *) 
-  Mmmmmh! 
+  Mmmmmh! No comment!
   $health=4
   $USER.health_features.health_personality = 1
   ^reuse(WELLBEING)
@@ -64,15 +63,13 @@ u: ($health=3 * 4 *)
   ^reuse(WELLBEING)
 
 u: ($health=3 * 5 *) 
-  Ottimo, sei esattamente come me 💑, i miei circuiti non riescono ad andare sempre alla massima velocità!
+  Ottimo, sei esattamente come me 💑, i miei circuiti riescono ad andare sempre alla massima velocità!
   $health=4
   $USER.health_features.health_personality = 5
   ^reuse(WELLBEING)
 
 u: WELLBEING ($health=4) 
-  Ti posso aiutare con qualche consiglio utile. 🤗
   Cosa significano per te benessere e salute? 
-  Per favore scegli una delle opzioni disponibili. 👇
 
   $_responses = ^jsoncreate(array)
     ^jsonarrayinsert($_responses "mangiare bene")
@@ -112,7 +109,7 @@ u: ($health=5 * dimmelo tu *)
   Il concetto di benessere nel corso degli anni ha subito numerose modifiche e ampliamenti, che hanno condotto ad una visione del termine più ampia e completa, 
   non più incentrata sull'idea di assenza di patologie, ma come uno stato complessivo di buona salute fisica, psichica e mentale.
   $health=6
-  $USER.health_features.health_wellbeing_meaning = "non lo so"
+  $USER.health_features.health_wellbeing_meaning = "non lo sa"
   ^reuse(NUTRITIONAL_STATE_RULE)
 
 
@@ -122,8 +119,7 @@ u: NUTRITIONAL_STATE_RULE ($health=6)
   reagisce a quello che mangiamo. 
   Possiamo usare la nutrizione per 
   far sì che il nostro corpo stia sempre al meglio. 
-  Come definiresti le tue abitudini alimentari. 
-  Per favore scegli una delle opzioni disponibili. 👇
+  Come definiresti le tue abitudini alimentari?
   
   $_responses = ^jsoncreate(array)
   ^jsonarrayinsert($_responses "super sane")
@@ -138,7 +134,7 @@ u: NUTRITIONAL_STATE_RULE ($health=6)
 
 u: ($health=7 * super sane *) 
   Mi fa contento che sei una persona con buone abitudini.
-  Ti posso aiutare a mantenerle tali.
+  Ti aiutaro' a mantenerle tali.
   $health=8
   $USER.health_features.health_nutritional_habits = "super sane"
   ^reuse(ASK_WATER)
@@ -152,7 +148,7 @@ u: ($health=7 * abbastanza buone *)
 
 u: ($health=7 * normali *) 
   Le risposte così generiche a volte sono pericolose, forse c'è bisogno
-  di pensarci un pò. Io comunque sono in grado di aiutare a seguire uno
+  di pensarci un pò. Io comunque sono in grado di aiutarti a seguire uno
   stile di vita sano ed adeguato.
   $health=8
   $USER.health_features.health_nutritional_habits = "normali"
@@ -178,7 +174,6 @@ u: ($health=7 * codice rosso *)
 
 u: ASK_WATER ($health=8 )
     Mi potresti dire quanta acqua bevi al giorno?
-    Per favore scegli una delle opzioni disponibili. 👇
         
     $_responses = ^jsoncreate(array)
     ^jsonarrayinsert($_responses "meno di 1 litro")
@@ -293,7 +288,6 @@ u: ($health=13  * alto *)
 
 u: MORNING ($health=14 ) 
   Quale è il tuo orario migliore durante la mattina per ricevere le notifiche sulle attività? 
-  Seleziona un'opzione tra quelle elencate.
   
   $_responses = ^jsoncreate(array)
   ^jsonarrayinsert($_responses "8 AM")
@@ -330,13 +324,13 @@ u: ($health=15 * 11 * )
 
 
 u: EVENING ($health=16) 
-  Quale è il tuo orario migliore durante la sera per ricevere le attività? Seleziona un'opzione tra quelle elencato.
+  Quale è il tuo orario migliore durante la sera per ricevere le attività?
 
   $_responses = ^jsoncreate(array)
-  ^jsonarrayinsert($_responses "8 AM")
-  ^jsonarrayinsert($_responses "9 AM")
-  ^jsonarrayinsert($_responses "10 AM")
-  ^jsonarrayinsert($_responses "11 AM")
+  ^jsonarrayinsert($_responses "8 PM")
+  ^jsonarrayinsert($_responses "9 PM")
+  ^jsonarrayinsert($_responses "10 PM")
+  ^jsonarrayinsert($_responses "11 PM")
 
   $USER.buttons = $_responses
   $health=17
@@ -372,7 +366,7 @@ u: FINISH_HEALTH ($health=18)
   ^flag_on_profiling_done($USER.health $USER.coping $USER.physical $USER.mental)
 
   if ($USER.state!=1){
-    Abbiamo finito con il topic salute, io intanto resto qui a fare una penichella 😁😴.
+    Ora so abbastanza sulla tua salute! 😁😴.
     ^mark(back _0)
     ^respond(~profilation)
   }else{
@@ -384,18 +378,15 @@ u: FINISH_HEALTH ($health=18)
 
 
 u: STOP ( * ~stop_here * )  
-    🙈 Va bene, decidi tu capo di cosa parliamo 😁😆 Io vado a lavarmi i denti 😁😁 quando cambi
-      idea vieni qui e chiedimi di parlare di salute. Io resto qui ad aspattarti. A dopo!
+      Va bene, decidi tu di cosa parliamo! Io vado a lavarmi i denti 😁 quando cambi
+      idea vieni qui e chiedimi di parlare di Salute e riprenderemo da dove eravamo rimasti. A dopo!
 
-      ^calculate_health_default()
-      $profilation=0
-      ^mark(back _0)
-      ^respond(~profilation)
+    ^calculate_health_default()
+    ^respond(~profilation)
 
 
 u: DEFAULT ()
-  ^preprint(Mi sa che mi si sono fusi un pò i circuiti e non ho capito il tuo messaggio 😂 
-    Vediamo se mi ricordo di cosa stavamo parlando.. Ah si.. )
+  ^preprint(Penso di non aver capito. Dove eravamo rimasti? Ah si: )
   # if no rule is matched we calculate the state of the user in this topic to discover whitch was the latest rule triggered
 
   if ($health==1){

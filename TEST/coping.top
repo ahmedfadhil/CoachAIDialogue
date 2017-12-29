@@ -1,8 +1,8 @@
 topic: ~coping repeat keep []
 
 u: INTRO ($coping=0)
-  Ok! Ora ci occuperemo di chiederti qualche informazione per riuscire ad aiutarti nel miglior modo possibile a sentirti meglio, 
-  combattere lo stress e adirittura per dormire meglio 😴 ti prometto che questa cosa la faremo una sola volta.
+  Ora cerchero' di raccogliere qualche informazione per capire meglio quali sono le tue abitudini.
+  Questi dati gli usero' come base per aiutarti a sentirti meglio, combattere lo stress e adirittura per dormire meglio 😴.
   $coping = 1
   ^reuse(FEELING_NOW)
 
@@ -97,8 +97,7 @@ u: ($coping=4 * {"più di", "piu di" più piu} 8 * {ore h})
 
 
 u: ENERGY_LEVEL_DAY ($coping=5) 
-  E quanto è il tuo livello di energia 💪 durante il giorno?
-  Per favore scegli una delle opzioni disponibili se vuoi 👇 
+  Come è il tuo livello di energia 💪 durante il giorno? 
 
   $_responses = ^jsoncreate(array)
   ^jsonarrayinsert($_responses "tantissime energie")
@@ -117,14 +116,14 @@ u: ($coping=6 * tantissime * {energie} *)
 
 u: ($coping=6 * non tante * {energie} * )
   Capisco! Io sono molto bravo a dare dei buoni consigli sul come migliorare questo
-  calo di energie 🕺. Dammi un po' di tempo per conoscerti meglio e ti diro' esattamente quello di cui hai bisogno. 👊
+  calo di energie 🕺. 
   $coping=7
   $USER.coping_features.coping_energy_level = "non tante energie"
   ^reuse(FINISH_COPING)
 
 u: ($coping=6 * pochissime * {energie} * )
   Capisco! 🤔 Io sono molto bravo a dare dei buoni consigli sul come migliorare questo
-  calo di energie 🕺. Dammi un po' di tempo per conoscerti meglio e ti diro' esattamente quello di cui hai bisogno. 👊
+  calo di energie 🕺. 
   $coping=7
   $USER.coping_features.coping_energy_level = "pochissime energie"
   ^reuse(FINISH_COPING)
@@ -135,8 +134,7 @@ u: FINISH_COPING ($coping=7)
   ^flag_on_profiling_done($USER.health $USER.coping $USER.physical $USER.mental)
 
   if ($USER.state!=1){
-    Possiamo fare meglio di così, pensero' ad un piano adatto a te
-    🕺 🎊 🕺 🎉 🕺 questa e' la mia danza per pensare meglio 😆
+    Penso di sapere abbastanza sulle tue Strategie di Adattamento. Queste conoscenze mi aiuteranno a conoscerti e aiutarti meglio.
     
     ^mark(back _0)
     ^respond(~profilation)
@@ -147,13 +145,8 @@ u: FINISH_COPING ($coping=7)
 
 
 u: STOP ( * ~stop_here * )  
-  🙈 Va bene, decidi tu capo di cosa parliamo 😁😆 Io vado a lavarmi i denti 😁😁 quando cambi
-  idea vieni qui e chiedimi di parlare di strategie di adattamento. Io resto qui ad aspattarti. A dopo!
-
+  Va bene! Possiamo proseguire piu' tardi!
   ^calculate_coping_default()
-
-  $profilation=0
-  ^mark(back _0)
   ^respond(~profilation)
 
 # gestione dello stato in caso di frasi che non matchano nessuno dei pattern

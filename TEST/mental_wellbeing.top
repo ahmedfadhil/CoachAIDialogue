@@ -201,14 +201,11 @@ u: FINISH_MENTAL ($mental=9)
 
 
 u: STOP ( * ~stop_here * )
-    🙈 Va bene, decidi tu capo di cosa parliamo 😁😆 Io vado a lavarmi i denti 😁😁 quando cambi
-    idea vieni qui e chiedimi di parlare di salute. Io resto qui ad aspattarti. A dopo!
-    $profilation=0
+    Ci fermiamo qui allora! Quando vuoi scegli un'atro argomento di cui parlare.
 
     # calcolare $mental in modo che quando rientro nel topic se prima si 
     # era fermato appositamente mi faccia la domanda e non mi vada in DEFAULT
     ^calculate_mental_default()
-
     ^respond(~profilation)
 
 

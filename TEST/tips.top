@@ -107,7 +107,8 @@ u: MINDFULLNESS ($tips=1 * ~consapevolezza *)
 u: (* ~stop_here *)
 	$tips=0
 	🙈 Va bene, decidi tu capo di cosa parliamo 😁😆 Io vado a lavarmi i denti 😁😁 quando cambi
-    idea vieni qui e chidimi di parlare di \" strategie di adattamento \" . Io resto qui ad aspattarti. A dopo!
+    idea vieni qui e chidimi dei consigli.
+    $USER.state = 1
     
     ^mark(back _0)
     ^addtopic(~monitoring)

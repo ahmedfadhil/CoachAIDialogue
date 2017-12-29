@@ -1,9 +1,8 @@
 topic: ~profilation keep repeat []  
 
 # intro
-u: INTRO ($profilation=0) Gli argomenti di cui possiamo parlare per ora sono: 
-  ^remains_to_profile($USER.health $USER.coping $USER.physical $USER.mental)
-   a te la scelta!
+u: INTRO ($profilation=0) In breve parleremo di 4 cose importanti per il tuo benessere, cioe' di Salute, Attivita' Fisica, Benessere Mentale e delle tue Strategie di Adattamento.
+  Scegli tu con cosa iniziare! Una volta iniziata una discussione puoi sempre dire "Basta" oppure "Stop" se vuoi interromperti e proseguire in un secondo momento.
   $profilation=1
   ^set_buttons_on_return_profilation($USER.health $USER.coping $USER.physical $USER.mental)
 
@@ -18,8 +17,8 @@ u: ($profilation=1 * ~topic_salute *)
     ^addtopic(~health)
     ^respond(~health)
   }else{
-    Per ora abbiamo abbastanza informazioni sul tuo stato della salute. I topic sui quali possiamo ancora parlare sono 
-    ^remains_to_profile($USER.health $USER.coping $USER.physical $USER.mental) scegli tu con cosa vuoi continuare.
+     Hai già completato il topic Salute. Gli argomenti che ti mancano sono: 
+    ^remains_to_profile($USER.health $USER.coping $USER.physical $USER.mental). Scegli tu con cosa vuoi continuare.
     ^set_buttons_on_return_profilation($USER.health $USER.coping $USER.physical $USER.mental)
 
 
@@ -34,8 +33,8 @@ u: ($profilation=1 * ~topic_adattamento * )
     ^addtopic(~coping)
     ^respond(~coping)
   }else{
-    Abbiamo già completato questo topic. Gli argomenti che ci mancano sono: 
-    ^remains_to_profile($USER.health $USER.coping $USER.physical $USER.mental) scegli tu con cosa vuoi continuare.
+     Hai già completato il topic Strategie di Adattamento. Gli argomenti che ti mancano sono: 
+    ^remains_to_profile($USER.health $USER.coping $USER.physical $USER.mental). Scegli tu con cosa vuoi continuare.
     ^set_buttons_on_return_profilation($USER.health $USER.coping $USER.physical $USER.mental)
   }
 
@@ -47,8 +46,8 @@ u: ($profilation=1 * ~topic_attivita_fisica * )
     ^addtopic(~physical)
     ^respond(~physical)
   }else{
-    Abbiamo già completato questo topic. Gli argomenti che ci mancano sono: 
-    ^remains_to_profile($USER.health $USER.coping $USER.physical $USER.mental) scegli tu con cosa vuoi continuare.
+    Hai già completato il topic Attivita' Fisica. Gli argomenti che ti mancano sono: 
+    ^remains_to_profile($USER.health $USER.coping $USER.physical $USER.mental). Scegli tu con cosa vuoi continuare.
     ^set_buttons_on_return_profilation($USER.health $USER.coping $USER.physical $USER.mental)
   }
 
@@ -62,19 +61,23 @@ u: ($profilation=1 * ~topic_benessere_mentale *)
     ^respond(~mental_wellbeing)
   }else{
     Abbiamo già completato questo topic. Gli argomenti che ci mancano sono: 
-    ^remains_to_profile($USER.health $USER.coping $USER.physical $USER.mental) scegli tu con cosa vuoi continuare.
+    ^remains_to_profile($USER.health $USER.coping $USER.physical $USER.mental). Scegli un'atro topic per continuare continuare.
     ^set_buttons_on_return_profilation($USER.health $USER.coping $USER.physical $USER.mental)  }
 
-u: (back) 
-    Ti ricordo che ci rimane da parlare di: 
-    ^remains_to_profile($USER.health $USER.coping $USER.physical $USER.mental) a te la scelta!
-    ^set_buttons_on_return_profilation($USER.health $USER.coping $USER.physical $USER.mental)
-    ^unmark(back _0)
+u: (~stop_here) 
+  [Gli argomenti di cui dobbiamo ancora discutere sono:]
+  [Devi completare ancora gli argomenti:]
+  [Dobbiamo parlare ancora di:]
+  [Ti manca ancora:]
+  ^remains_to_profile($USER.health $USER.coping $USER.physical $USER.mental). A te la scelta!
+  ^set_buttons_on_return_profilation($USER.health $USER.coping $USER.physical $USER.mental)
+  $profilation = 1
 
 u: (*) 
-  Intanto possiamo parlare solo di 
-  ^set_buttons_on_return_profilation($USER.health $USER.coping $USER.physical $USER.mental)
-  ^remains_to_profile($USER.health $USER.coping $USER.physical $USER.mental). A te la scelta!
-
-
+    [Gli argomenti di cui dobbiamo ancora discutere sono:]
+    [Devi completare ancora gli argomenti:]
+    [Dobbiamo parlare ancora di:]
+    [Ti manca ancora:]
+    ^remains_to_profile($USER.health $USER.coping $USER.physical $USER.mental) a te la scelta!
+    ^set_buttons_on_return_profilation($USER.health $USER.coping $USER.physical $USER.mental)
 
